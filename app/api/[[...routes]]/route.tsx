@@ -9,6 +9,7 @@ import { serveStatic } from 'frog/serve-static'
 const neynarKey = process.env.NEYNAR_API_KEY!
 
 const app = new Frog({
+  title: 'Delegate Match',
   assetsPath: '/',
   basePath: '/api',
   hub: neynar({ apiKey: neynarKey })
@@ -56,7 +57,6 @@ app.frame('/', (c) => {
       </div>
     ),
     intents: [
-      <TextInput placeholder="Enter custom fruit..." />,
       <Button value="apples">Apples</Button>,
       <Button value="oranges">Oranges</Button>,
       <Button value="bananas">Bananas</Button>,
