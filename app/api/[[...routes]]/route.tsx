@@ -22,17 +22,9 @@ app.frame('/', (c) => {
   
   const fid = frameData?.fid;
   console.log({ frameData, fid });
-  // const address = async () => {
-  //   if(fid) {
-  //     const user = await getAddress(fid);
-  //     console.log(user);
-  //     // return user.address;
-  //     return user
-  //   }
-  //   return null;
-  // }
-  // address().then(console.log);
+
   
+
   const fruit = inputText || buttonValue
   return c.res({
     image: (
