@@ -6,18 +6,33 @@ import { neynar } from 'frog/hubs'
 import { handle } from 'frog/next'
 import { serveStatic } from 'frog/serve-static'
 
-const neynarKey = process.env.NEYNAR_API_KEY!
+const neynarKey = process.env.NEYNAR_API_KEY ?? 'NEYNAR_FROG_FM';
 
 const app = new Frog({
   title: 'Delegate Match',
   assetsPath: '/',
   basePath: '/api',
-  hub: neynar({ apiKey: neynarKey })
+  hub: neynar({ apiKey: neynarKey }),
+  secret: process.env.FROG_SECRET ?? 'FROG_SECRET'
 })
 
 
 app.frame('/', (c) => {
-  const { buttonValue, inputText, status } = c
+  const { buttonValue, inputText, status, frameData } = c
+  
+  const fid = frameData?.fid;
+  console.log({ frameData, fid });
+  // const address = async () => {
+  //   if(fid) {
+  //     const user = await getAddress(fid);
+  //     console.log(user);
+  //     // return user.address;
+  //     return user
+  //   }
+  //   return null;
+  // }
+  // address().then(console.log);
+  
   const fruit = inputText || buttonValue
   return c.res({
     image: (

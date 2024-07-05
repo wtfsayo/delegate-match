@@ -1,7 +1,9 @@
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-import { Address, privateKeyToAccount } from "viem/accounts";
-import { http, zeroAddress } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
+import type { Address } from "viem";
+import { isAddress } from "viem";
 import { sepolia, optimism } from "viem/chains";
+import getFcAddress from './getFcAddress';
 import {
     JsonRpcProvider,
     JsonRpcSigner,
@@ -33,7 +35,7 @@ async function Attest(
     }: {
         promptStatement: string;
         choiceStatement: string;
-        fid: string;
+        fid: number | string;
     }
 ) {
     // Signer must be an ethers-like signer.
@@ -42,7 +44,12 @@ async function Attest(
 
     // get address from #fid using neynar
 
-    const address = zeroAddress; // TODO: get address from #fid
+    const address = await getFcAddress(fid);
+
+    if (!isAddress(address)) {
+        console.log('Invalid Attestation Request or fid');
+        return
+    }
 
     // Initialize SchemaEncoder with the schema string
     const schemaEncoder = new SchemaEncoder("string promptStatement,string choiceStatement,uint32 fid");
