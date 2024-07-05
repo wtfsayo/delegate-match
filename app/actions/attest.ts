@@ -4,6 +4,7 @@ import getFcAddress from './getFcAddress';
 // consts and clients
 import { schemaUID,  AttestationSigner } from '../utils/consts'
 import { easServiceClient, schemaEncoder } from '../utils/clients';
+import { isInteger } from "lodash";
 
 
 
@@ -27,7 +28,7 @@ async function Attest(
 
     const address = await getFcAddress(fid);
 
-    if (!isAddress(address)) {
+    if (!isAddress(address) || !isInteger(fid) || !(Number(fid) > 0)) {
         console.log('Invalid Attestation Request or fid');
         return
     }
@@ -37,7 +38,7 @@ async function Attest(
     const encodedData = schemaEncoder.encodeData([
         { name: "promptStatement", value: promptStatement, type: "string" },
         { name: "choiceStatement", value: choiceStatement, type: "string" },
-        { name: "fid", value: fid, type: "uint32" },
+        { name: "fid", value: Number(fid), type: "uint32" },
     ]);
 
 
