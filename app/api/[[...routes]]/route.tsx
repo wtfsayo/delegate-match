@@ -28,6 +28,7 @@ app.frame('/', (c) => {
   console.log(`fid: ${fid}, value: ${buttonValue}`)
 
   return c.res({
+    action: '/0',
     image: (
       <div
         style={{
@@ -63,7 +64,7 @@ app.frame('/', (c) => {
       </div>
     ),
     intents: [
-      <Button action='/0'>Start</Button>,
+      <Button>Start</Button>,
       // status === 'response' && <Button.Reset>Reset</Button.Reset>,
     ],
   })
@@ -80,6 +81,7 @@ sampleQuestions.forEach((question, qid) => {
     });
 
     return c.res({
+      action: (qid < sampleQuestions.length-1) ? String(`/${question.id + 1}`) : '/end',
       image: (
         <div
           style={{
@@ -115,7 +117,7 @@ sampleQuestions.forEach((question, qid) => {
         </div>
       ),
       intents: question.choices.map((choice:string, index:number) => (
-        <Button value={String(index)} action={qid < sampleQuestions.length-1 ? String(`/${question.id + 1}`) : '/end'}>{choice}</Button>
+        <Button value={String(index)}>{choice}</Button>
       ))
     });
   });
