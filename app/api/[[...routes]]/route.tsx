@@ -21,14 +21,11 @@ const app = new Frog({
 
 
 app.frame('/', (c) => {
-  const { buttonValue, inputText, status, frameData } = c
+  const { buttonValue, status, frameData } = c
   
   const fid = frameData?.fid;
-  // console.log({ frameData, fid });
 
-  const value = inputText || buttonValue
-
-  console.log(`${fid} Started the survey`)
+  console.log(`fid: ${fid}, value: ${buttonValue}`)
 
   return c.res({
     image: (
@@ -66,7 +63,7 @@ app.frame('/', (c) => {
       </div>
     ),
     intents: [
-      <Button action='/0' value={`${fid} + started`}>Start</Button>,
+      <Button action='/0'>Start</Button>,
       // status === 'response' && <Button.Reset>Reset</Button.Reset>,
     ],
   })
@@ -76,9 +73,11 @@ app.frame('/', (c) => {
 sampleQuestions.forEach((question, qid) => {
   app.frame(`/${question.id}`, (c) => {
     const { buttonValue, inputText, status, frameData } = c
-    const answer = inputText || buttonValue;
 
-    console.log({choice: question.choices[Number(answer)], qid});
+    console.log({
+      question: question.prompt,
+      choice: question.choices[Number(buttonValue)], buttonValue
+    });
 
     return c.res({
       image: (
@@ -126,7 +125,8 @@ sampleQuestions.forEach((question, qid) => {
 app.frame('/end', (c) => {
   const { buttonValue, inputText, status, frameData } = c
   const fid = frameData?.fid;
-  console.log({ frameData, fid });
+  // console.log({ frameData, fid });
+  console.log(`${fid} , reached the end of questionnaire`, buttonValue)
   return c.res({
     image: (
       <div
@@ -149,7 +149,7 @@ app.frame('/end', (c) => {
         <div
           style={{
             color: 'white',
-            fontSize: 50,
+            fontSize: 60,
             fontStyle: 'normal',
             letterSpacing: '-0.025em',
             lineHeight: 1.4,
@@ -158,12 +158,12 @@ app.frame('/end', (c) => {
             whiteSpace: 'pre-wrap',
           }}
         >
-          #{fid} , your matches await you!!
+          #{fid} , your matches await you!
         </div>
       </div>
     ),
     intents: [
-      <Button.Redirect location="https://delegate-match.vercel.app/">See your matches</Button.Redirect>,
+      <Button.Link href="https://delegate-match.vercel.app/">See your matches</Button.Link>,
     ],
   })
 })
