@@ -24,11 +24,11 @@ app.frame('/', (c) => {
   const { buttonValue, inputText, status, frameData } = c
   
   const fid = frameData?.fid;
-  console.log({ frameData, fid });
+  // console.log({ frameData, fid });
 
   const value = inputText || buttonValue
 
-  console.log(value)
+  console.log(`${fid} Started the survey`)
 
   return c.res({
     image: (
@@ -73,12 +73,12 @@ app.frame('/', (c) => {
 })
 
 
-sampleQuestions.forEach((question) => {
+sampleQuestions.forEach((question, qid) => {
   app.frame(`/${question.id}`, (c) => {
     const { buttonValue, inputText, status, frameData } = c
     const answer = inputText || buttonValue;
 
-    console.log(question.choices[Number(answer)]);
+    console.log({choice: question.choices[Number(answer)], qid});
 
     return c.res({
       image: (
@@ -116,7 +116,7 @@ sampleQuestions.forEach((question) => {
         </div>
       ),
       intents: question.choices.map((choice:string, index:number) => (
-        <Button value={String(index)} action={index < sampleQuestions.length ? String(`/${question.id + 1}`) : '/end'}>{choice}</Button>
+        <Button value={String(index)} action={qid < sampleQuestions.length-1 ? String(`/${question.id + 1}`) : '/end'}>{choice}</Button>
       ))
     });
   });
