@@ -1,4 +1,4 @@
-export const questions = [
+export const sampleQuestions = [
     {
         id: 0,
         prompt: 'What is the purpose of blockchain technology?',

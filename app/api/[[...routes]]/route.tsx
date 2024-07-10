@@ -6,6 +6,8 @@ import { neynar } from 'frog/hubs'
 import { handle } from 'frog/next'
 import { serveStatic } from 'frog/serve-static'
 
+import { sampleQuestions } from '../../utils/sampleQuestions';
+
 const neynarKey = process.env.NEYNAR_API_KEY ?? 'NEYNAR_FROG_FM';
 
 const app = new Frog({
@@ -13,7 +15,8 @@ const app = new Frog({
   assetsPath: '/',
   basePath: '/api',
   hub: neynar({ apiKey: neynarKey }),
-  secret: process.env.FROG_SECRET ?? 'FROG_SECRET'
+  secret: process.env.FROG_SECRET ?? 'FROG_SECRET',
+  verify: true
 })
 
 
@@ -23,9 +26,10 @@ app.frame('/', (c) => {
   const fid = frameData?.fid;
   console.log({ frameData, fid });
 
-  
+  const value = inputText || buttonValue
 
-  const fruit = inputText || buttonValue
+  console.log(value)
+
   return c.res({
     image: (
       <div
@@ -57,20 +61,69 @@ app.frame('/', (c) => {
             whiteSpace: 'pre-wrap',
           }}
         >
-          {status === 'response'
-            ? `Nice choice.${fruit ? ` ${fruit.toUpperCase()}!!` : ''}`
-            : 'Welcome!'}
+          Start the survey
         </div>
       </div>
     ),
     intents: [
-      <Button value="apples">Apples</Button>,
-      <Button value="oranges">Oranges</Button>,
-      <Button value="bananas">Bananas</Button>,
-      status === 'response' && <Button.Reset>Reset</Button.Reset>,
+      <Button action='/0'>Start</Button>,
+      // status === 'response' && <Button.Reset>Reset</Button.Reset>,
     ],
   })
 })
+
+
+sampleQuestions.forEach((question) => {
+  app.frame(`/${question.id}`, (c) => {
+    const { buttonValue, inputText, status, frameData } = c
+    const answer = inputText || buttonValue;
+
+    console.log(question.choices[Number(answer)]);
+
+    return c.res({
+      image: (
+        <div
+          style={{
+            alignItems: 'center',
+            background:
+              status === 'response'
+                ? 'linear-gradient(to right, #432889, #17101F)'
+                : 'black',
+            backgroundSize: '100% 100%',
+            display: 'flex',
+            flexDirection: 'column',
+            flexWrap: 'nowrap',
+            height: '100%',
+            justifyContent: 'center',
+            textAlign: 'center',
+            width: '100%',
+          }}
+        >
+          <div
+            style={{
+              color: 'white',
+              fontSize: 50,
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
+              lineHeight: 1.4,
+              marginTop: 30,
+              padding: '0 120px',
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            {question.prompt}
+          </div>
+        </div>
+      ),
+      intents: question.choices.map((choice:string, index:number) => (
+        <Button value={String(index)} action={String(`/${question.id + 1}`)}>{choice}</Button>
+      ))
+    });
+  });
+});
+
+
+
 
 devtools(app, { serveStatic })
 
