@@ -66,7 +66,7 @@ app.frame('/', (c) => {
       </div>
     ),
     intents: [
-      <Button action='/0'>Start</Button>,
+      <Button action='/0' value={`${fid} + started`}>Start</Button>,
       // status === 'response' && <Button.Reset>Reset</Button.Reset>,
     ],
   })
@@ -116,12 +116,57 @@ sampleQuestions.forEach((question) => {
         </div>
       ),
       intents: question.choices.map((choice:string, index:number) => (
-        <Button value={String(index)} action={String(`/${question.id + 1}`)}>{choice}</Button>
+        <Button value={String(index)} action={index < sampleQuestions.length ? String(`/${question.id + 1}`) : '/end'}>{choice}</Button>
       ))
     });
   });
 });
 
+
+app.frame('/end', (c) => {
+  const { buttonValue, inputText, status, frameData } = c
+  const fid = frameData?.fid;
+  console.log({ frameData, fid });
+  return c.res({
+    image: (
+      <div
+        style={{
+          alignItems: 'center',
+          background:
+            status === 'response'
+              ? 'linear-gradient(to right, #432889, #17101F)'
+              : 'black',
+          backgroundSize: '100% 100%',
+          display: 'flex',
+          flexDirection: 'column',
+          flexWrap: 'nowrap',
+          height: '100%',
+          justifyContent: 'center',
+          textAlign: 'center',
+          width: '100%',
+        }}
+      >
+        <div
+          style={{
+            color: 'white',
+            fontSize: 50,
+            fontStyle: 'normal',
+            letterSpacing: '-0.025em',
+            lineHeight: 1.4,
+            marginTop: 30,
+            padding: '0 120px',
+            whiteSpace: 'pre-wrap',
+          }}
+        >
+          #{fid} , your matches await you!!
+        </div>
+      </div>
+    ),
+    intents: [
+      <Button.Redirect location="https://delegate-match.vercel.app/">See your matches</Button.Redirect>,
+    ],
+  })
+})
 
 
 
