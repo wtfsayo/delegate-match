@@ -20,6 +20,42 @@ const app = new Frog({
 })
 
 
+const getFrameImage = (title: string) => {
+  return (<div
+    style={{
+      alignItems: 'center',
+      background:
+        status === 'response'
+          ? 'linear-gradient(to right, #432889, #17101F)'
+          : 'black',
+      backgroundSize: '100% 100%',
+      display: 'flex',
+      flexDirection: 'column',
+      flexWrap: 'nowrap',
+      height: '100%',
+      justifyContent: 'center',
+      textAlign: 'center',
+      width: '100%',
+    }}
+  >
+    <div
+      style={{
+        color: 'white',
+        fontSize: 60,
+        fontStyle: 'normal',
+        letterSpacing: '-0.025em',
+        lineHeight: 1.4,
+        marginTop: 30,
+        padding: '0 120px',
+        whiteSpace: 'pre-wrap',
+      }}
+    >
+      {title}
+    </div>
+  </div>)
+}
+
+
 app.frame('/', (c) => {
   const { buttonValue, status, frameData } = c
   
@@ -29,40 +65,7 @@ app.frame('/', (c) => {
 
   return c.res({
     action: '/0',
-    image: (
-      <div
-        style={{
-          alignItems: 'center',
-          background:
-            status === 'response'
-              ? 'linear-gradient(to right, #432889, #17101F)'
-              : 'black',
-          backgroundSize: '100% 100%',
-          display: 'flex',
-          flexDirection: 'column',
-          flexWrap: 'nowrap',
-          height: '100%',
-          justifyContent: 'center',
-          textAlign: 'center',
-          width: '100%',
-        }}
-      >
-        <div
-          style={{
-            color: 'white',
-            fontSize: 60,
-            fontStyle: 'normal',
-            letterSpacing: '-0.025em',
-            lineHeight: 1.4,
-            marginTop: 30,
-            padding: '0 120px',
-            whiteSpace: 'pre-wrap',
-          }}
-        >
-          Start the survey
-        </div>
-      </div>
-    ),
+    image: getFrameImage('Start the survey'),
     intents: [
       <Button>Start</Button>,
       // status === 'response' && <Button.Reset>Reset</Button.Reset>,
@@ -82,40 +85,7 @@ sampleQuestions.forEach((question, qid) => {
 
     return c.res({
       action: (qid < sampleQuestions.length-1) ? String(`/${question.id + 1}`) : '/end',
-      image: (
-        <div
-          style={{
-            alignItems: 'center',
-            background:
-              status === 'response'
-                ? 'linear-gradient(to right, #432889, #17101F)'
-                : 'black',
-            backgroundSize: '100% 100%',
-            display: 'flex',
-            flexDirection: 'column',
-            flexWrap: 'nowrap',
-            height: '100%',
-            justifyContent: 'center',
-            textAlign: 'center',
-            width: '100%',
-          }}
-        >
-          <div
-            style={{
-              color: 'white',
-              fontSize: 50,
-              fontStyle: 'normal',
-              letterSpacing: '-0.025em',
-              lineHeight: 1.4,
-              marginTop: 30,
-              padding: '0 120px',
-              whiteSpace: 'pre-wrap',
-            }}
-          >
-            {question.prompt}
-          </div>
-        </div>
-      ),
+      image: getFrameImage(question.prompt),
       intents: question.choices.map((choice:string, index:number) => (
         <Button value={String(index)}>{choice}</Button>
       ))
@@ -130,40 +100,7 @@ app.frame('/end', (c) => {
   // console.log({ frameData, fid });
   console.log(`${fid} , reached the end of questionnaire`, buttonValue)
   return c.res({
-    image: (
-      <div
-        style={{
-          alignItems: 'center',
-          background:
-            status === 'response'
-              ? 'linear-gradient(to right, #432889, #17101F)'
-              : 'black',
-          backgroundSize: '100% 100%',
-          display: 'flex',
-          flexDirection: 'column',
-          flexWrap: 'nowrap',
-          height: '100%',
-          justifyContent: 'center',
-          textAlign: 'center',
-          width: '100%',
-        }}
-      >
-        <div
-          style={{
-            color: 'white',
-            fontSize: 60,
-            fontStyle: 'normal',
-            letterSpacing: '-0.025em',
-            lineHeight: 1.4,
-            marginTop: 30,
-            padding: '0 120px',
-            whiteSpace: 'pre-wrap',
-          }}
-        >
-          #{fid} , your matches await you!
-        </div>
-      </div>
-    ),
+    image: getFrameImage(`#${fid} , your matches await you!`),
     intents: [
       <Button.Link href="https://delegate-match.vercel.app/">See your matches</Button.Link>,
     ],
