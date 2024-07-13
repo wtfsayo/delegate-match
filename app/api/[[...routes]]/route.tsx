@@ -6,7 +6,11 @@ import { neynar } from 'frog/hubs'
 import { handle } from 'frog/next'
 import { serveStatic } from 'frog/serve-static'
 
-import { sampleQuestions } from '../../utils/sampleQuestions';
+
+import { Box, Heading, Text, VStack, vars, Image } from '@/app/utils/ui'
+
+import { sampleQuestions } from '@/app/utils/sampleQuestions';
+import backgroundImage from '@/public/bg.png'
 
 const neynarKey = process.env.NEYNAR_API_KEY ?? 'NEYNAR_FROG_FM';
 
@@ -16,48 +20,28 @@ const app = new Frog({
   basePath: '/api',
   hub: neynar({ apiKey: neynarKey }),
   secret: process.env.FROG_SECRET ?? 'FROG_SECRET',
-  verify: true
+  verify: true,
+  ui: {vars}
 })
 
 
 const getFrameImage = (title: string) => {
-  return (<div
-    style={{
-      alignItems: 'center',
-      background:
-        status === 'response'
-          ? 'linear-gradient(to right, #432889, #17101F)'
-          : 'black',
-      backgroundSize: '100% 100%',
-      display: 'flex',
-      flexDirection: 'column',
-      flexWrap: 'nowrap',
-      height: '100%',
-      justifyContent: 'center',
-      textAlign: 'center',
-      width: '100%',
-    }}
+  return (
+    <Box
+    grow
+    alignVertical="center"
+    alignHorizontal='center'
   >
-    <div
-      style={{
-        color: 'white',
-        fontSize: 60,
-        fontStyle: 'normal',
-        letterSpacing: '-0.025em',
-        lineHeight: 1.4,
-        marginTop: 30,
-        padding: '0 120px',
-        whiteSpace: 'pre-wrap',
-      }}
-    >
-      {title}
-    </div>
-  </div>)
+    <Image src='/bg.png' objectFit='cover' width='100%' height='100%' />
+    <Box position='absolute' textAlign='center' margin='64'>
+      <Heading size='24' align='center' wrap='balance'>{title}</Heading>
+    </Box>
+  </Box>)
 }
 
 
 app.frame('/', (c) => {
-  const { buttonValue, status, frameData } = c
+  const { buttonValue, frameData } = c
   
   const fid = frameData?.fid;
 
