@@ -6,9 +6,10 @@ import { neynar } from "frog/hubs";
 import { handle } from "frog/next";
 import { serveStatic } from "frog/serve-static";
 
-import { Box, Heading, Text, VStack, vars, Image } from "@/app/utils/ui";
+import { Box, Heading, vars, Image } from "@/app/utils/ui";
 
 import { sampleQuestions } from "@/app/utils/sampleQuestions";
+import { multiAttest } from "@/app/actions/attest";
 
 const neynarKey = process.env.NEYNAR_API_KEY ?? "NEYNAR_FROG_FM";
 
@@ -76,11 +77,12 @@ sampleQuestions.forEach((question, qid) => {
   });
 });
 
-app.frame("/loading", (c) => {
+
+app.frame("/loading", async (c) => {
   const { buttonValue, deriveState, frameData } = c;
   const fid = frameData?.fid;
 
-  let state;
+  let state: State;
 
   if (buttonValue) {
     state = deriveState((previousState) => {
@@ -88,9 +90,28 @@ app.frame("/loading", (c) => {
       previousState.responses[Object.keys(previousState.responses).length] =
         Number(buttonValue);
     });
+
+    const statements = Object.keys(state.responses).map((key) => {
+      const numericKey = Number(key);
+      return {
+        promptStatement: sampleQuestions[numericKey].prompt,
+        choiceStatement:
+          sampleQuestions[numericKey].choices[state.responses[numericKey]],
+      };
+    });
+
+
+
+    const attested = await multiAttest({
+      statements,
+      fid: Number(fid),
+    });
+
+    console.log({ attested });
   }
+
   return c.res({
-    action: "/0",
+    action: "/end",
     image: getFrameImage("Loading"),
     intents: [
       <Button.Link href="https://delegate-match.vercel.app/">
@@ -99,6 +120,7 @@ app.frame("/loading", (c) => {
     ],
   });
 });
+
 
 app.frame("/end", (c) => {
   const { buttonValue, previousState, frameData } = c;

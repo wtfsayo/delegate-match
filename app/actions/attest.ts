@@ -5,7 +5,7 @@ import type { MultiAttestationRequest, AttestationRequestData } from "@ethereum-
 import getFcAddress from './getFcAddress';
 
 // consts and clients
-import { schemaUID,  AttestationSigner } from '../utils/consts'
+import { schemaUID, AttestationSigner } from '../utils/consts'
 import { easServiceClient, schemaEncoder } from '../utils/clients';
 import { isInteger } from "lodash";
 
@@ -33,11 +33,11 @@ export async function singleAttest(
     }
 
     // Initialize SchemaEncoder with the schema string
-    
+
     const encodedData = schemaEncoder.encodeData([
         { name: "promptStatement", value: promptStatement, type: "string" },
         { name: "choiceStatement", value: choiceStatement, type: "string" },
-        { name: "fid", value: Number(fid), type: "uint32" },
+        { name: "fid", value: String(fid), type: "uint32" },
     ]);
 
 
@@ -45,7 +45,7 @@ export async function singleAttest(
         schema: schemaUID,
         data: {
             recipient: address,
-            revocable: true, // Be aware that if your schema is not revocable, this MUST be false
+            revocable: true,
             data: encodedData,
         },
     });
@@ -77,25 +77,39 @@ export async function multiAttest({
         return
     }
 
-    
+
+
+
+
     const attestationsData = {
         schema: schemaUID,
-        data: 
+        data:
             statements.map((statement) => {
                 return {
                     recipient: address,
-                    revocable: true, // Be aware that if your schema is not revocable, this MUST be false
+                    revocable: true,
                     data: schemaEncoder.encodeData(
                         [
                             { name: "promptStatement", value: statement.promptStatement, type: "string" },
                             { name: "choiceStatement", value: statement.choiceStatement, type: "string" },
-                            { name: "fid", value: Number(fid), type: "uint32" },
+                            { name: "fid", value: String(fid), type: "uint32" },
                         ]
                     )
                 } as AttestationRequestData
             })
-        
+
     } satisfies MultiAttestationRequest;
 
-    easServiceClient.multiAttest([attestationsData]);
+
+    const chainId = await easServiceClient.getChainId()
+    console.log({ chainId })
+
+    const tx = await easServiceClient.multiAttest([attestationsData]);
+
+    console.log(tx.receipt);
+    const attestationId = await tx.wait();
+
+    console.log("New attestation ID:", attestationId);
+
+    return attestationId;
 }
