@@ -56,8 +56,6 @@ app.frame("/", (c) => {
 
 sampleQuestions.forEach((question, qid) => {
   app.frame(`/${qid}`, async (c) => {
-    
-    
 
     let state;
 
@@ -101,12 +99,11 @@ app.frame("/loading", async (c) => {
         Number(buttonValue);
     });
 
-    const statements = Object.keys(state.responses).map((key) => {
-      const numericKey = Number(key);
+    const statements = Object.entries(state.responses).map(([question, answer]) => {
+      const q = Number(question);
       return {
-        promptStatement: sampleQuestions[numericKey].prompt,
-        choiceStatement:
-          sampleQuestions[numericKey].choices[state.responses[numericKey]],
+        promptStatement: sampleQuestions[q].prompt,
+        choiceStatement: sampleQuestions[q].choices[answer],
       };
     });
 
