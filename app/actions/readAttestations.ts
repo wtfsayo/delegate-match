@@ -1,22 +1,24 @@
 import { Address } from "viem";
 
-import { easServiceClient, optimismGraphQLClient } from "../utils/clients";
-import { GET_ATTESTATIONS } from "../utils/queries";
+import {  optimismGraphQLClient } from "@/app/utils/clients";
+import { GET_ATTESTATIONS } from "@/app/utils/queries";
+import { schemaUID, AttestorAddress } from "@/app/utils/consts";
+import getFcAddress from "./getFcAddress";
 
 
-const variables = {
+const queryVariables = (schemaId: string, attester: Address, recipient: Address) => ({
   "where": {
     "schemaId": {
-      "equals": "0xa62c89f95f67faff1e3ade0db1fca88a09fe53fdc2cc8f41513c22f66f762c79"
+      "equals": schemaId
     },
     "attester": {
-      "equals": "0xf9467D97A8277D1C4ee4Ad346B1Ca523847019D9"
+      "equals": attester
     },
     "recipient": {
-      "equals": "0x715D7097C9446B8BDb166557E950cd1Cc5115126"
+      "equals": recipient
     }
   }
-}
+})
 
 
 
@@ -28,11 +30,13 @@ export default async function readAttestations({
   if (!address && !fid) {
     throw new Error("Either address or fid must be provided");
   }
-  // TODO: read attestations from graph
+
+  
+  const recipient =  address || await getFcAddress(String(fid)) as Address;
 
   const attestations = await optimismGraphQLClient.request(
     GET_ATTESTATIONS,
-    variables
+    queryVariables(schemaUID, AttestorAddress, recipient)
   )
 
   return attestations ?? [];
