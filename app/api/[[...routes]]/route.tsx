@@ -10,6 +10,7 @@ import { Box, Heading, vars, Image } from "@/app/utils/ui";
 
 import { sampleQuestions } from "@/app/utils/sampleQuestions";
 import { multiAttest } from "@/app/actions/attest";
+import readAttestations from "@/app/actions/readAttestations";
 
 const neynarKey = process.env.NEYNAR_API_KEY ?? "NEYNAR_FROG_FM";
 
@@ -54,10 +55,19 @@ app.frame("/", (c) => {
 });
 
 sampleQuestions.forEach((question, qid) => {
-  app.frame(`/${qid}`, (c) => {
+  app.frame(`/${qid}`, async (c) => {
+    
+    
+
     let state;
 
-    const { buttonValue, deriveState } = c;
+    const { buttonValue, deriveState, frameData } = c;
+    
+
+    const fid = frameData?.fid ?? 0;
+
+    const existingAttestations = await readAttestations({fid});
+    console.log({ existingAttestations });
 
     if (buttonValue) {
       state = deriveState((previousState) => {
