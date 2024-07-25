@@ -65,7 +65,8 @@ sampleQuestions.forEach((question, qid) => {
     const fid = frameData?.fid ?? 0;
 
     const existingAttestations = await readAttestations({fid});
-    console.log({ existingAttestations });
+    
+    console.log(existingAttestations);
 
     if (buttonValue) {
       state = deriveState((previousState) => {
