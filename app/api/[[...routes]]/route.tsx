@@ -8,7 +8,7 @@ import { serveStatic } from "frog/serve-static";
 
 import { Box, Heading, vars, Image } from "@/app/utils/ui";
 
-import { sampleQuestions } from "@/app/utils/sampleQuestions";
+import { surveyQuestions } from "@/app/utils/surveyQuestions";
 import { multiAttest } from "@/app/actions/attest";
 import readAttestations from "@/app/actions/readAttestations";
 
@@ -54,7 +54,7 @@ app.frame("/", (c) => {
   });
 });
 
-sampleQuestions.forEach((question, qid) => {
+surveyQuestions.forEach((question, qid) => {
   app.frame(`/${qid}`, async (c) => {
 
     let state;
@@ -77,7 +77,7 @@ sampleQuestions.forEach((question, qid) => {
 
     return c.res({
       action:
-        qid < sampleQuestions.length - 1 ? String(`/${qid + 1}`) : "/loading",
+        qid < surveyQuestions.length - 1 ? String(`/${qid + 1}`) : "/loading",
       image: getFrameImage(question.prompt),
       intents: question.choices.map((choice: string, index: number) => (
         <Button value={String(index)}>{choice}</Button>
@@ -103,8 +103,8 @@ app.frame("/loading", async (c) => {
     const statements = Object.entries(state.responses).map(([question, answer]) => {
       const q = Number(question);
       return {
-        promptStatement: sampleQuestions[q].prompt,
-        choiceStatement: sampleQuestions[q].choices[answer],
+        promptStatement: surveyQuestions[q].prompt,
+        choiceStatement: surveyQuestions[q].choices[answer],
       };
     });
 
