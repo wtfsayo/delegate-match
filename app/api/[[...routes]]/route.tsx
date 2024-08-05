@@ -10,7 +10,7 @@ import { Box, Heading, vars, Image } from "@/app/utils/ui";
 
 import { surveyQuestions } from "@/app/utils/surveyQuestions";
 import { multiAttest } from "@/app/actions/attest";
-import readAttestations from "@/app/actions/readAttestations";
+import getAttestations from "@/app/actions/attestations";
 
 const neynarKey = process.env.NEYNAR_API_KEY ?? "NEYNAR_FROG_FM";
 
@@ -64,7 +64,7 @@ surveyQuestions.forEach((question, qid) => {
 
     const fid = frameData?.fid ?? 0;
 
-    const existingAttestations = await readAttestations({fid});
+    const existingAttestations = await getAttestations(fid);
     
     console.log(existingAttestations);
 

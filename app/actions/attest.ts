@@ -77,10 +77,6 @@ export async function multiAttest({
         return
     }
 
-
-
-
-
     const attestationsData = {
         schema: schemaUID,
         data:
