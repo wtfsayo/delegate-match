@@ -64,9 +64,10 @@ surveyQuestions.forEach((question, qid) => {
 
     const fid = frameData?.fid ?? 0;
 
-    const existingAttestations = await getAttestations(fid);
+    const attestations = await getAttestations(fid);
     
-    if(existingAttestations.length > 0) {
+    if(attestations.length > 0 ) {
+      console.log(attestations);
       return c.res({
         image: getFrameImage("We found recommedations for you"),
         intents: [

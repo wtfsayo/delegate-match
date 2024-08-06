@@ -18,7 +18,9 @@ export default async function getAttestations(fid: string | number) {
 
   console.log({recipient});
 
-  const attestations = await optimismGraphQLClient.request<Attestation[]>(
+  const { attestations } = await optimismGraphQLClient.request<{
+    attestations: Attestation[];
+  }>(
     GET_ATTESTATIONS,
     {
       "where": {
