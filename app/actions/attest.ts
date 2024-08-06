@@ -97,8 +97,7 @@ export async function multiAttest({
     } satisfies MultiAttestationRequest;
 
 
-    const chainId = await easServiceClient.getChainId()
-    console.log({ chainId })
+    const chainId = await easServiceClient.getChainId();
 
     const tx = await easServiceClient.multiAttest([attestationsData]);
 

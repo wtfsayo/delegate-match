@@ -66,7 +66,16 @@ surveyQuestions.forEach((question, qid) => {
 
     const existingAttestations = await getAttestations(fid);
     
-    console.log(existingAttestations);
+    if(existingAttestations.length > 0) {
+      return c.res({
+        image: getFrameImage("We found recommedations for you"),
+        intents: [
+          <Button.Redirect location={`https://delegate-match.vercel.app/matches/${fid}`}>
+            See All
+          </Button.Redirect>
+        ],
+      });
+    }
 
     if (buttonValue) {
       state = deriveState((previousState) => {
