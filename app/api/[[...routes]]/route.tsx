@@ -77,7 +77,7 @@ surveyQuestions.forEach((question, qid) => {
 
     return c.res({
       action:
-        qid < surveyQuestions.length - 1 ? String(`/${qid + 1}`) : "/loading",
+        qid < surveyQuestions.length - 1 ? String(`/${qid + 1}`) : "/attest",
       image: getFrameImage(question.prompt),
       intents: question.choices.map((choice: string, index: number) => (
         <Button value={String(index)}>{choice}</Button>
@@ -87,11 +87,12 @@ surveyQuestions.forEach((question, qid) => {
 });
 
 
-app.frame("/loading", async (c) => {
+app.frame("/attest", async (c) => {
   const { buttonValue, deriveState, frameData } = c;
   const fid = frameData?.fid;
 
   let state: State;
+  let attestations;
 
   if (buttonValue) {
     state = deriveState((previousState) => {
@@ -110,45 +111,39 @@ app.frame("/loading", async (c) => {
 
 
 
-    const attested = await multiAttest({
+    attestations = await multiAttest({
       statements,
       fid: Number(fid),
     });
 
-    console.log({ attested });
+    console.log({ attestations, statements });
   }
+
+  if(!attestations) {
 
   return c.res({
     action: "/end",
     image: getFrameImage("Loading"),
     intents: [
-      <Button.Link href="https://delegate-match.vercel.app/">
-        See your matches
-      </Button.Link>,
+      <Button.Reset>
+        Finding your matches
+      </Button.Reset>,
     ],
   });
+}
+
+return c.res({
+  image: getFrameImage("We found recommedations for you"),
+  intents: [
+    <Button.Redirect location={`https://delegate-match.vercel.app/matches/${fid}`}>
+      See All
+    </Button.Redirect>
+  ],
+})
 });
 
+// create castAction for sharing
 
-app.frame("/end", (c) => {
-  const { buttonValue, previousState, frameData } = c;
-
-  const fid = frameData?.fid;
-  console.log(
-    { finalState: previousState },
-    `${fid} , reached the end of questionnaire`,
-    buttonValue
-  );
-
-  return c.res({
-    image: getFrameImage(`#${fid} , your matches await you!`),
-    intents: [
-      <Button.Link href="https://delegate-match.vercel.app/">
-        See your matches
-      </Button.Link>,
-    ],
-  });
-});
 
 devtools(app, { serveStatic });
 
