@@ -1,3 +1,5 @@
+import { DelegateAnswers } from "./interfaces";
+
 export const delegateAnswers = [
   {
     "delegateID": "joxes.eth",
@@ -383,4 +385,4 @@ export const delegateAnswers = [
       "10": 1
     }
   }
-]
+] satisfies DelegateAnswers[];

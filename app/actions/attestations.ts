@@ -3,7 +3,8 @@ import { optimismGraphQLClient } from "@/app/utils/clients";
 import { GET_ATTESTATIONS } from "@/app/utils/queries";
 import { schemaUID, AttestorAddress } from "@/app/utils/consts";
 import getFcAddress from "@/app/actions/getFcAddress";
-import { Attestation } from "@ethereum-attestation-service/eas-sdk";
+
+import { AttestationData } from "@/app/utils/interfaces";
 
 export default async function getAttestations(fid: string | number) {
   if (!fid) {
@@ -19,7 +20,7 @@ export default async function getAttestations(fid: string | number) {
   console.log({recipient});
 
   const { attestations } = await optimismGraphQLClient.request<{
-    attestations: Attestation[];
+    attestations: Array<AttestationData>;
   }>(
     GET_ATTESTATIONS,
     {
