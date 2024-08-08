@@ -1,4 +1,3 @@
-'use client'
 import { getFrameMetadata } from 'frog/next'
 import { Metadata } from 'next'
 import { useParams } from 'next/navigation'
@@ -14,7 +13,7 @@ import { Suspense } from 'react'
 //   }
 // }
 
-export default function Home() {
+export default function Page({ params }: { params: { fid: string } }) {
   const { fid } = useParams();
   console.log({fid});
   return (
@@ -23,3 +22,4 @@ export default function Home() {
     </div>
   )
 }
+
