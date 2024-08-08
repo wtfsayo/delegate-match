@@ -1,6 +1,7 @@
+'use client'
 import { getFrameMetadata } from 'frog/next'
 import { Metadata } from 'next'
-import { useSearchParams } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { Suspense } from 'react'
 
 
@@ -14,7 +15,7 @@ import { Suspense } from 'react'
 // }
 
 export default function Home() {
-  const fid = useSearchParams().get('fid');
+  const { fid } = useParams();
   return (
     <div>
       {`Your farcaster ID is ${fid || "0"}`}
