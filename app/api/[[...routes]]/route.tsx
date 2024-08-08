@@ -1,19 +1,18 @@
 /** @jsxImportSource frog/jsx */
 
-import { Button, Frog, TextInput } from "frog";
+import { Button, Frog } from "frog";
 import { devtools } from "frog/dev";
 import { neynar } from "frog/hubs";
 import { handle } from "frog/next";
 import { serveStatic } from "frog/serve-static";
 
-import { Box, Heading, vars, Image, Text, HStack, Spacer } from "@/app/utils/ui";
+import { Box, Heading, vars, Image, Text, HStack } from "@/app/utils/ui";
 
 import { surveyQuestions } from "@/app/utils/surveyQuestions";
 import { multiAttest } from "@/app/actions/attest";
 import getAttestations from "@/app/actions/attestations";
 import rankDelegates from "@/app/actions/matches";
 import { RankedDelegate } from "@/app/utils/interfaces";
-import { match } from "assert";
 
 const neynarKey = process.env.NEYNAR_API_KEY ?? "NEYNAR_FROG_FM";
 
