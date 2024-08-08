@@ -12,8 +12,10 @@ export const schemaUID = process.env.SCHEMA_UID ?? "0xa62c89f95f67faff1e3ade0db1
 export const chain = optimism;
 // process.env.NODE_ENV === "production" ? optimism : optimismSepolia;
 
+const groveKey = process.env.GROVE_KEY!
+
 // create RPC provider
-export const RPCProvider = new JsonRpcProvider(`https://optimism-mainnet.rpc.grove.city/v1/6ecf8e4b`, {
+export const RPCProvider = new JsonRpcProvider(`https://optimism-mainnet.rpc.grove.city/v1/${groveKey}`, {
     name: chain.name,
     chainId: chain.id,
 }); // TODO: use non public RPC

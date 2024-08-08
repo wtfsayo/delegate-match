@@ -13,3 +13,8 @@ export interface RankedDelegate {
 export interface AttestationData extends Attestation {
   decodedDataJson: string;
 }
+
+export interface DecodedAttestation {
+  promptStatement: string;
+  choiceStatement: string;
+}

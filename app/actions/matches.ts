@@ -3,39 +3,50 @@ import { delegateAnswers } from "@/app/utils/delegateAnswers";
 
 import { DelegateAnswers, RankedDelegate } from "@/app/utils/interfaces";
 import { surveyQuestions } from "@/app/utils/surveyQuestions";
-
+import _ from "lodash";
+import { DecodedAttestation } from "@/app/utils/interfaces";
 
   
   export default async function rankDelegates(
     fid: string | number, 
-  ): Promise<RankedDelegate[]> {
+  )
+  // : Promise<RankedDelegate[]>
+   {
 
 
     // get attestations
     const attestations = await getAttestations(fid);
 
-    const decodedAttestations = attestations.map(a => JSON.parse(a.decodedDataJson));
+    const decodedAttestations = attestations.map(a => {
+      return _.reduce(JSON.parse(a.decodedDataJson), (acc: { [key: string]: string }, item) => {
+        if (item.name === 'promptStatement' || item.name === 'choiceStatement') {
+          acc[_.get(item, 'name')] = _.get(item, 'value.value');
+        }
+        return acc;
+      }, {});
+    });
 
-    return decodedAttestations;
 
-    // const totalQuestions = Object.keys(surveyQuestions).length;
+    const totalQuestions = Object.keys(surveyQuestions).length;
   
-    // // Calculate the score and percentage for each delegate
-    // const scores = delegateAnswers.map((delegate: DelegateAnswers) => {
-    //   let score = 0;
-    //   for (const [question, answer] of Object.entries(inputAnswers)) {
-    //     const q = Number(question);
-    //     if (delegate.responses[q] === answer) {
-    //       score++;
-    //     }
-    //   }
-    //   const matchPercentage = (score / totalQuestions) * 100;
-    //   return { delegateID: delegate.delegateID, matchPercentage };
-    // });
+    // Calculate the score and percentage for each delegate
+    const scores = delegateAnswers.map((delegate: DelegateAnswers, index: number) => {
+      
+      let score = 0;
+      _.map(decodedAttestations, (attestation: DecodedAttestation, questionIndex: number) => {
+        if (attestation.promptStatement === surveyQuestions[questionIndex].prompt && 
+          attestation.choiceStatement === surveyQuestions[questionIndex].choices[delegate.responses[questionIndex]]
+        ) {
+          score++;
+        }
+      });
+      const matchPercentage = (score / totalQuestions) * 100;
+      return { delegateID: delegate.delegateID, matchPercentage };
+    });
   
-    // // Sort delegates by matchPercentage in descending order
-    // scores.sort((a, b) => b.matchPercentage - a.matchPercentage);
+    // Sort delegates by matchPercentage in descending order
+    scores.sort((a, b) => b.matchPercentage - a.matchPercentage);
   
-    // // Return array of delegateIDs and matchPercentages in ranked order
-    // return scores;
+    // Return array of delegateIDs and matchPercentages in ranked order
+    return scores;
   }

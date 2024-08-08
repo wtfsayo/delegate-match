@@ -6,11 +6,14 @@ import { neynar } from "frog/hubs";
 import { handle } from "frog/next";
 import { serveStatic } from "frog/serve-static";
 
-import { Box, Heading, vars, Image } from "@/app/utils/ui";
+import { Box, Heading, vars, Image, Text, VStack, HStack } from "@/app/utils/ui";
 
 import { surveyQuestions } from "@/app/utils/surveyQuestions";
 import { multiAttest } from "@/app/actions/attest";
 import getAttestations from "@/app/actions/attestations";
+import rankDelegates from "@/app/actions/matches";
+import { RankedDelegate } from "@/app/utils/interfaces";
+import { match } from "assert";
 
 const neynarKey = process.env.NEYNAR_API_KEY ?? "NEYNAR_FROG_FM";
 
@@ -46,6 +49,28 @@ const getFrameImage = (title: string) => {
   );
 };
 
+const getMatchesFrameImage = (title: string, matches: RankedDelegate[]) => {
+  return (
+    <Box grow alignVertical="center" alignHorizontal="center">
+      <Image src="/bg.png" objectFit="cover" width="100%" height="100%" />
+      <Box position="absolute" textAlign="center" marginTop="64" marginLeft="64" marginRight="0" gap="16" paddingTop="32">
+        <Heading size="24" align="center" wrap="balance">
+          {title}
+        </Heading>
+        <HStack gap="32">
+          {matches.map((match, index) =>
+            <Box gap="8" bottom="48" alignVertical="center" alignHorizontal="center">
+              <Image src={`https://api.ensdata.net/media/avatar/${match.delegateID}`} borderRadius="256" width="80" height="80" />
+              <Text>{match.delegateID}</Text>
+              <Text>{Math.ceil(match.matchPercentage * 100)/100}%</Text>
+            </Box>)}
+        </HStack>
+      </Box>
+    </Box>
+  );
+};
+
+
 app.frame("/", (c) => {
   return c.res({
     action: "/0",
@@ -60,16 +85,18 @@ surveyQuestions.forEach((question, qid) => {
     let state;
 
     const { buttonValue, deriveState, frameData } = c;
-    
-
     const fid = frameData?.fid ?? 0;
-
     const attestations = await getAttestations(fid);
-    
-    if(attestations.length > 0 ) {
+
+    if (attestations.length > 0) {
       console.log(attestations);
+
+      const matches = await rankDelegates(fid!);
+
+      const shownMatches = matches.slice(0, 3);
+
       return c.res({
-        image: getFrameImage("We found recommedations for you"),
+        image: getMatchesFrameImage("We found recommedations for you", shownMatches),
         intents: [
           <Button.Redirect location={`https://delegate-match.vercel.app/matches/${fid}`}>
             See All
@@ -129,27 +156,29 @@ app.frame("/attest", async (c) => {
     console.log({ attestations, statements });
   }
 
-  if(!attestations) {
+  if (!attestations) {
+    return c.res({
+      image: getFrameImage("Loading"),
+      intents: [
+        <Button.Reset>
+          Refresh
+        </Button.Reset>,
+      ],
+    });
+  }
+
+  const matches = await rankDelegates(fid!);
+
+  console.log({ matches });
 
   return c.res({
-    action: "/end",
-    image: getFrameImage("Loading"),
+    image: getFrameImage("We found recommedations for you"),
     intents: [
-      <Button.Reset>
-        Finding your matches
-      </Button.Reset>,
+      <Button.Redirect location={`https://delegate-match.vercel.app/matches/${fid}`}>
+        See All
+      </Button.Redirect>
     ],
-  });
-}
-
-return c.res({
-  image: getFrameImage("We found recommedations for you"),
-  intents: [
-    <Button.Redirect location={`https://delegate-match.vercel.app/matches/${fid}`}>
-      See All
-    </Button.Redirect>
-  ],
-})
+  })
 });
 
 // create castAction for sharing
