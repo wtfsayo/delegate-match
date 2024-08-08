@@ -41,7 +41,7 @@ const getFrameImage = (title: string) => {
     <Box grow alignVertical="center" alignHorizontal="center">
       <Image src="/bg.png" objectFit="cover" width="100%" height="100%" />
       <Box position="absolute" textAlign="center" margin="64">
-        <Heading size="24" align="center" wrap="balance">
+        <Heading size="32" align="center" wrap="balance">
           {title}
         </Heading>
       </Box>
@@ -58,7 +58,7 @@ const getMatchesFrameImage = (title: string, matches: RankedDelegate[]) => {
           {matches.map((match) =>
             <Box gap="8" alignVertical="center" alignHorizontal="center">
               <Image src={`https://api.ensdata.net/media/avatar/${match.delegateID}`} borderRadius="256" width="80" height="80" />
-              <Text size="18">{match.delegateID}</Text>
+              <Text size="18" weight="600">{match.delegateID}</Text>
               <Text size="16" weight="400">{Math.ceil(match.matchPercentage * 100)/100}%</Text>
             </Box>)}
         </HStack>
@@ -171,7 +171,7 @@ app.frame("/attest", async (c) => {
   return c.res({
     image: getFrameImage("We found recommedations for you"),
     intents: [
-      <Button.Redirect location={`https://delegate-match.vercel.app/matches/${fid}`}>
+      <Button.Redirect location={`https://delegate-match.vercel.app/matches?fid=${fid}`}>
         See All
       </Button.Redirect>
     ],
