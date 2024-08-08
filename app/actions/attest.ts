@@ -3,7 +3,7 @@ import { isAddress } from "viem";
 import type { MultiAttestationRequest, AttestationRequestData } from "@ethereum-attestation-service/eas-sdk";
 
 import getFcAddress from './getFcAddress';
-
+import getAttestations from "./attestations";
 // consts and clients
 import { schemaUID, AttestationSigner } from '../utils/consts'
 import { easServiceClient, schemaEncoder } from '../utils/clients';
@@ -71,6 +71,14 @@ export async function multiAttest({
 
     // get address from #fid using neynar
     const address = await getFcAddress(fid);
+
+    // get existing attestations
+    const existingAttestations = await getAttestations(fid);
+
+    if (existingAttestations.length > 0) {
+        console.log("Attestations already exist for this fid");
+        return;
+    }
 
     if (!isAddress(address) || !isInteger(fid) || !(Number(fid) > 0)) {
         console.log('Invalid Attestation Request or fid');

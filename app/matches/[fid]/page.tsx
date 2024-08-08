@@ -9,7 +9,7 @@ export default async function Page({ params }: { params: { fid: string } }) {
   const fid = params.fid;
   const attestations = await getAttestations(fid);
   const delegateMatches = await rankDelegates(fid!);
-  if(attestations.length == 0) {
+  if(!attestations.length) {
     return (
       <main>
         {`No attestations found for this fid`}
