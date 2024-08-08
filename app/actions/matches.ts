@@ -9,8 +9,7 @@ import { DecodedAttestation } from "@/app/utils/interfaces";
   
   export default async function rankDelegates(
     fid: string | number, 
-  )
-  // : Promise<RankedDelegate[]>
+  ): Promise<RankedDelegate[]>
    {
 
 
@@ -41,7 +40,7 @@ import { DecodedAttestation } from "@/app/utils/interfaces";
         }
       });
       const matchPercentage = (score / totalQuestions) * 100;
-      return { delegateID: delegate.delegateID, matchPercentage };
+      return { delegateID: delegate.delegateID, matchPercentage: Math.ceil(matchPercentage * 100) / 100 };
     });
   
     // Sort delegates by matchPercentage in descending order

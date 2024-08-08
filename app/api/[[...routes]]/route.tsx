@@ -59,7 +59,7 @@ const getMatchesFrameImage = (title: string, matches: RankedDelegate[]) => {
             <Box gap="8" alignVertical="center" alignHorizontal="center">
               <Image src={`https://api.ensdata.net/media/avatar/${match.delegateID}`} borderRadius="256" width="80" height="80" />
               <Text size="18" weight="600">{match.delegateID}</Text>
-              <Text size="16" weight="400">{Math.ceil(match.matchPercentage * 100)/100}%</Text>
+              <Text size="16" weight="400">{match.matchPercentage}%</Text>
             </Box>)}
         </HStack>
       </Box>
