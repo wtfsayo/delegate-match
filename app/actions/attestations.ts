@@ -5,6 +5,7 @@ import { schemaUID, AttestorAddress } from "@/app/utils/consts";
 import getFcAddress from "@/app/actions/getFcAddress";
 
 import { AttestationData } from "@/app/utils/interfaces";
+import { surveyQuestions } from "../utils/surveyQuestions";
 
 export default async function getAttestations(fid: string | number) {
   if (!fid) {
@@ -41,6 +42,11 @@ export default async function getAttestations(fid: string | number) {
   if(!attestations) {
     console.error("No attestations found");
   }
+
+  if(attestations.length > surveyQuestions.length) {
+    console.error("Too many attestations found");
+  }
+
 
   return attestations;
 }
