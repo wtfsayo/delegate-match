@@ -1,6 +1,7 @@
 import { getFrameMetadata } from 'frog/next'
 import { Metadata } from 'next'
 import { useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -16,7 +17,9 @@ export default function Home() {
   const fid = useSearchParams()?.get('fid')
   return (
     <main>
+      <Suspense fallback={<div>Loading...</div>}>
       {`Your farcaster ID is ${fid}`}
+      </Suspense>
     </main>
   )
 }
