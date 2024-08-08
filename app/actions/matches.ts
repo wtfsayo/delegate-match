@@ -12,6 +12,7 @@ import { DecodedAttestation } from "@/app/utils/interfaces";
   ): Promise<RankedDelegate[]>
    {
 
+    console.log('Ranking delegates for fid: ' + fid);
 
     // get attestations
     const attestations = await getAttestations(fid);

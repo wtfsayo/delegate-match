@@ -45,7 +45,9 @@ export default async function getAttestations(fid: string | number) {
 
   if(attestations.length > surveyQuestions.length) {
     console.error("Too many attestations found");
+    return attestations.slice(0, surveyQuestions.length - 1);
   }
+
 
 
   return attestations;
