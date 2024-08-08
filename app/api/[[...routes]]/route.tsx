@@ -171,7 +171,7 @@ app.frame("/attest", async (c) => {
   return c.res({
     image: getFrameImage("We found recommedations for you"),
     intents: [
-      <Button.Redirect location={`https://delegate-match.vercel.app/matches/${fid}`}>
+      <Button.Redirect location={`https://delegate-match.vercel.app/matches?fid=${fid}`}>
         See All
       </Button.Redirect>
     ],
