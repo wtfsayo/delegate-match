@@ -14,11 +14,9 @@ import { Suspense } from 'react'
 // }
 
 export default function Page({ params }: { params: { fid: string } }) {
-  const { fid } = useParams();
-  console.log({fid});
   return (
     <div>
-      {`Your farcaster ID is ${fid || "0"}`}
+      {`Your farcaster ID is ${params.fid || "0"}`}
     </div>
   )
 }
