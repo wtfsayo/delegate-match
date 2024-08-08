@@ -21,7 +21,7 @@ export default async function Page({ params }: { params: { fid: string } }) {
       {`Your farcaster ID is ${params.fid} and you have ${attestations.length} attestations`}
       <ol>
       {delegateMatches.map((delegate) => 
-      <li><p>{delegate.delegateID + " : " + delegate.matchPercentage + "%"}</p></li>)}
+      <li><a href={`https://vote.optimism.io/delegates/${delegate.delegateID}`}>{delegate.delegateID + " : " + delegate.matchPercentage + "%"}</a></li>)}
       </ol>
     </div>
   )
