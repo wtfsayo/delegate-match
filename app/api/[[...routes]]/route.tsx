@@ -54,16 +54,12 @@ const getMatchesFrameImage = (title: string, matches: RankedDelegate[]) => {
     <Box grow alignVertical="center" alignHorizontal="center">
       <Image src="/bg.png" objectFit="cover" width="100%" height="100%" />
       <Box position="absolute" textAlign="center" marginTop="64" marginLeft="64" marginRight="0" gap="16" paddingTop="32">
-        <Spacer />
-        <Heading size="24" align="center" wrap="balance">
-          {title}
-        </Heading>
         <HStack gap="32">
           {matches.map((match) =>
             <Box gap="8" alignVertical="center" alignHorizontal="center">
               <Image src={`https://api.ensdata.net/media/avatar/${match.delegateID}`} borderRadius="256" width="80" height="80" />
-              <Text>{match.delegateID}</Text>
-              <Text>{Math.ceil(match.matchPercentage * 100)/100}%</Text>
+              <Text size="18">{match.delegateID}</Text>
+              <Text size="16" weight="400">{Math.ceil(match.matchPercentage * 100)/100}%</Text>
             </Box>)}
         </HStack>
       </Box>

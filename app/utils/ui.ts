@@ -10,6 +10,11 @@ export const { Box, Heading, Text, VStack, vars, Image, HStack, Spacer } = creat
                 name: 'Sora',
                 source: 'google',
                 weight: 600,
+            },
+            {
+                name: 'Sora',
+                source: 'google',
+                weight: 400,
             }
         ]
     }
