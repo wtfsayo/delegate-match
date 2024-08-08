@@ -1,7 +1,7 @@
 export default function Home() {
     return (
       <main>
-        {`What's in the match?`}
+        {`How does it work?`}
       </main>
     )
   }
