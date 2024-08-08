@@ -16,6 +16,7 @@ import { Suspense } from 'react'
 
 export default function Home() {
   const { fid } = useParams();
+  console.log({fid});
   return (
     <div>
       {`Your farcaster ID is ${fid || "0"}`}
