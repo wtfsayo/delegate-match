@@ -41,7 +41,7 @@ const getFrameImage = (title: string) => {
     <Box grow alignVertical="center" alignHorizontal="center">
       <Image src="/bg.png" objectFit="cover" width="100%" height="100%" />
       <Box position="absolute" textAlign="center" margin="64">
-        <Heading size="24" align="center" wrap="balance">
+        <Heading size="32" align="center" wrap="balance">
           {title}
         </Heading>
       </Box>
