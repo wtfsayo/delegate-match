@@ -14,12 +14,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Home() {
-  const fid = useSearchParams()?.get('fid')
+  const fid = useSearchParams().get('fid');
   return (
-    <main>
+    <div>
       <Suspense fallback={<div>Loading...</div>}>
-      {`Your farcaster ID is ${fid}`}
+      {`Your farcaster ID is ${fid ?? "0"}`}
       </Suspense>
-    </main>
+    </div>
   )
 }
