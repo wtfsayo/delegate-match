@@ -69,7 +69,7 @@ app.image('/matchImage/:fid', async (c) => {
               <Text size="18" weight="600">
                 {_.truncate(match.delegateID, { length: 15, separator: '...' })}
               </Text>
-              <Text size="16" weight="400">{match.matchPercentage}%</Text>
+              <Text size="16" weight="400">{match.matchPercentage ?? 0}%</Text>
             </Box>)}
         </HStack>
       </Box>
