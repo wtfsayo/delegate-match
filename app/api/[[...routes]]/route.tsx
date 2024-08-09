@@ -52,7 +52,7 @@ app.image('/matchImage/:fid', async (c) => {
 
   const fid = c.req.param().fid;
   const matches = await rankDelegates(fid);
-  
+
   const shownMatches = matches.slice(0, 3);
 
   return c.res({
@@ -66,7 +66,8 @@ app.image('/matchImage/:fid', async (c) => {
           {shownMatches.map((match) =>
             <Box gap="8" alignVertical="center" alignHorizontal="center">
               <Image src={`https://api.ensdata.net/media/avatar/${match.delegateID}`} borderRadius="256" width="80" height="80" />
-              <Text size="18" weight="600">{match.delegateID.slice(0, 8).replace('.eth', '') + '.eth'}</Text>
+              <Text size="18" weight="600">{match.delegateID.slice(0, 8).replace('.eth',
+                match.delegateID.length > 8 ? '...' : '') + '.eth'}</Text>
               <Text size="16" weight="400">{match.matchPercentage}%</Text>
             </Box>)}
         </HStack>
