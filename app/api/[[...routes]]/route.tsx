@@ -67,9 +67,7 @@ app.image('/matchImage/:fid', async (c) => {
             <Box gap="8" alignVertical="center" alignHorizontal="center">
               <Image src={`https://api.ensdata.net/media/avatar/${match.delegateID}`} borderRadius="256" width="80" height="80" />
               <Text size="18" weight="600">
-                {match.delegateID.endsWith('.eth')
-                  ? match.delegateID.slice(0, 8) + (match.delegateID.length > 12 ? '...' : '') + '.eth'
-                  : _.truncate(match.delegateID, { length: 12 }) + "..."}
+                {_.truncate(match.delegateID, { length: 15, separator: '...' })}
               </Text>
               <Text size="16" weight="400">{match.matchPercentage}%</Text>
             </Box>)}
