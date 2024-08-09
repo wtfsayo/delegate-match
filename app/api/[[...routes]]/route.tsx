@@ -57,7 +57,7 @@ app.image('/matchImage/:fid', async (c) => {
 
   return c.res({
     headers: {
-      'Cache-Control': 'max-age=0'
+      'Cache-Control': 'max-age=1000'
     },
     image: <Box grow alignVertical="center" alignHorizontal="center">
       <Image src="/bg.png" objectFit="cover" width="100%" height="100%" />
