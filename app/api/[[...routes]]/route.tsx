@@ -5,7 +5,7 @@ import { devtools } from "frog/dev";
 import { neynar } from "frog/hubs";
 import { handle } from "frog/next";
 import { serveStatic } from "frog/serve-static";
-
+import _ from "lodash";
 import { Box, Heading, vars, Image, Text, HStack } from "@/app/utils/ui";
 
 import { surveyQuestions } from "@/app/utils/surveyQuestions";
@@ -66,8 +66,11 @@ app.image('/matchImage/:fid', async (c) => {
           {shownMatches.map((match) =>
             <Box gap="8" alignVertical="center" alignHorizontal="center">
               <Image src={`https://api.ensdata.net/media/avatar/${match.delegateID}`} borderRadius="256" width="80" height="80" />
-              <Text size="18" weight="600">{match.delegateID.slice(0, 8).replace('.eth',
-                match.delegateID.replace('.eth', '').length > 8 ? '...' : '') + '.eth'}</Text>
+              <Text size="18" weight="600">
+                {match.delegateID.endsWith('.eth')
+                  ? match.delegateID.slice(0, 8) + (match.delegateID.length > 12 ? '...' : '') + '.eth'
+                  : _.truncate(match.delegateID, { length: 12 }) + "..."}
+              </Text>
               <Text size="16" weight="400">{match.matchPercentage}%</Text>
             </Box>)}
         </HStack>
