@@ -5,7 +5,7 @@ import { GraphQLClient } from "graphql-request";
 
 import { optimism, sepolia, optimismSepolia } from "viem/chains";
 
-export const neynarClient = new NeynarAPIClient(process.env.NEYNAR_API_KEY!);
+export const airstackClient = new GraphQLClient("https://api.airstack.xyz/graphql");
 export const easServiceClient = new EAS(easContractAddress);
 export const schemaEncoder = new SchemaEncoder("string promptStatement,string choiceStatement,uint32 fid");
 

@@ -17,6 +17,10 @@ import { DecodedAttestation } from "@/app/utils/interfaces";
     // get attestations
     const attestations = await getAttestations(fid);
 
+    // get latest only
+    attestations.slice(-surveyQuestions.length);
+
+
     const decodedAttestations = attestations.map(a => {
       return _.reduce(JSON.parse(a.decodedDataJson), (acc: { [key: string]: string }, item) => {
         if (item.name === 'promptStatement' || item.name === 'choiceStatement') {

@@ -10,3 +10,15 @@ query Attestations($where: AttestationWhereInput) {
       decodedDataJson
     }
   }`;
+
+export const GET_USER_BY_ID = gql`
+query MyQuery($userId: String!) {
+  Socials(
+    input: {filter: {dappName: {_eq: farcaster}, userId: {_eq: $userId}}, blockchain: ethereum}
+  ) {
+    Social {
+      userId
+      userAddress
+    }
+  }
+}`;

@@ -10,10 +10,11 @@ import { Box, Heading, vars, Image, Text, HStack } from "@/app/utils/ui";
 
 import { surveyQuestions } from "@/app/utils/surveyQuestions";
 import { multiAttest } from "@/app/actions/attest";
-import getAttestations from "@/app/actions/attestations";
 import rankDelegates from "@/app/actions/matches";
 
-const neynarKey = process.env.NEYNAR_API_KEY ?? "NEYNAR_FROG_FM";
+import { educationQuest } from "@/app/utils/consts";
+import getAttestations from "@/app/actions/attestations";
+const AIRSTACK_API_KEY = process.env.AIRSTACK_API_KEY ?? "1a290c2e9f75c450089c3b1c7ef849c02";
 
 interface State {
   currentIndex: number;
@@ -24,7 +25,14 @@ const app = new Frog<{ State: State }>({
   title: "Delegate Match",
   assetsPath: "/",
   basePath: "/api",
-  hub: neynar({ apiKey: neynarKey }),
+  hub: {
+    apiUrl: "https://hubs.airstack.xyz",
+    fetchOptions: {
+      headers: {
+        "x-airstack-hubs": AIRSTACK_API_KEY,
+      }
+    }
+  },
   secret: process.env.FROG_SECRET ?? "FROG_SECRET",
   verify: true,
   ui: { vars },
@@ -34,77 +42,165 @@ const app = new Frog<{ State: State }>({
   },
 });
 
-const getFrameImage = (title: string) => {
+const getFrameImage = (
+  title: string,
+  count?: string,
+  educational?: boolean
+) => {
   return (
     <Box grow alignVertical="center" alignHorizontal="center">
-      <Image src="/bg.png" objectFit="cover" width="100%" height="100%" />
+      <Image
+        src={educational ? "/bg-red.png" : "/bg.png"}
+        objectFit="cover"
+        width="100%"
+        height="100%"
+      />
       <Box position="absolute" textAlign="center" margin="64">
         <Heading size="24" align="center" wrap="balance">
           {title}
+        </Heading>
+      </Box>
+      {count && (
+        <Box position="absolute" right="16" bottom="16">
+          <Text size="12" align="center" weight="400">
+            {count}
+          </Text>
+        </Box>
+      )}
+    </Box>
+  );
+};
+
+const getFrameImageByUrl = (title: string, url: string, count?: number) => {
+  return (
+    <Box grow alignVertical="center" alignHorizontal="center">
+      <Image src={url} objectFit="cover" width="100%" height="100%" />
+      <Box position="absolute" textAlign="center" margin="64">
+        <Heading size="24" align="center" wrap="balance">
+          <br /> {title}
         </Heading>
       </Box>
     </Box>
   );
 };
 
+const getLoadingImage = () => {
+  return (
+    <Box grow alignVertical="center" alignHorizontal="center">
+      <Image src="/bg.png" objectFit="cover" width="100%" height="100%" />
+      <Box position="absolute" textAlign="center" margin="64">
+        <Image src="/laod3.gif" width="64" height="64" />
+      </Box>
+    </Box>
+  );
+};
 
-app.image('/matchImage/:fid', async (c) => {
-
-  const fid = c.req.param().fid;
+app.image("/matchImage/:fid", async (c) => {
+  const fid = c.req?.param()?.fid ?? "0";
   const matches = await rankDelegates(fid);
 
   const shownMatches = matches.slice(0, 3);
 
-  return c.res({
-    headers: {
-      'Cache-Control': 'max-age=1000'
-    },
-    image: <Box grow alignVertical="center" alignHorizontal="center">
-      <Image src="/bg.png" objectFit="cover" width="100%" height="100%" />
-      <Box position="absolute" textAlign="center" marginTop="64" marginLeft="64" marginRight="0" gap="16" paddingTop="32">
-        <HStack gap="32">
-          {shownMatches.map((match) =>
-            <Box gap="8" alignVertical="center" alignHorizontal="center">
-              <Image src={`https://api.ensdata.net/media/avatar/${match.delegateID}`} borderRadius="256" width="80" height="80" />
-              <Text size="18" weight="600">
-                {_.truncate(match.delegateID, { length: 15, separator: '...' })}
-              </Text>
-              <Text size="16" weight="400">{match.matchPercentage ?? 0}%</Text>
-            </Box>)}
-        </HStack>
-      </Box>
-    </Box>
-  });
+  console.log(matches, 'from matchImage frame for fid', fid);
+  console.log(shownMatches, 'from matchImage frame for fid', fid);
+
+  shownMatches.filter(m => {
+    if (!_.isNumber(m.matchPercentage)) {
+    
+      return c.res({
+        image: (
+          <Box grow alignVertical="center" alignHorizontal="center">
+            <Image src="/bg.png" objectFit="cover" width="100%" height="100%" />
+            Error Loading Image, try interacting with frame again
+          </Box>
+        ),
+      });
+    }
 });
 
 
+  return c.res({
+    image: (
+      <Box grow alignVertical="center" alignHorizontal="center">
+        <Image src="/bg.png" objectFit="cover" width="100%" height="100%" />
+        <Box
+          position="absolute"
+          textAlign="center"
+          marginTop="64"
+          marginLeft="64"
+          marginRight="0"
+          gap="16"
+          paddingTop="32"
+        >
+          <HStack gap="32">
+            {shownMatches.map((match) => (
+              <Box gap="8" alignVertical="center" alignHorizontal="center">
+                <Image
+                  src={`https://api.ensdata.net/media/avatar/${match.delegateID}`}
+                  borderRadius="256"
+                  width="80"
+                  height="80"
+                />
+                <Text size="18" weight="600">
+                  {_.truncate(match.delegateID, {
+                    length: 15,
+                    separator: "...",
+                  })}
+                </Text>
+                <Text size="16" weight="400">
+                  {match.matchPercentage ?? 0}%
+                </Text>
+              </Box>
+            ))}
+          </HStack>
+        </Box>
+      </Box>
+    ),
+  });
+});
+
 app.frame("/", (c) => {
   return c.res({
-    action: "/0",
-    image: getFrameImage("Start the survey"),
+    image: getFrameImageByUrl(" ", "/bg0.png"),
+    intents: [
+      <Button action="/education/0">Education</Button>,
+      <Button action="/start">Find Matches</Button>,
+    ],
+  });
+});
+
+app.frame("/start", async (c) => {
+
+  const { frameData } = c;
+  const fid = frameData?.fid;
+
+  const existingAttestations = await getAttestations(String(fid));
+
+  if (existingAttestations.length > 0) {
+    return c.res({
+      action: "/existing",
+      image: getFrameImage(
+        "You have already answered the survey. Click 'Find Matches' to see your matches.",
+      ),
+      intents: [<Button>Find Matches</Button>],
+    });
+  }
+
+  return c.res({
+    action: "/quest/0",
+    image: getFrameImageByUrl(
+      "Answer 11 questions aboutyour key priorities and values, and we will match you with an OP delegate.",
+      "/bg-intro.png"
+    ),
     intents: [<Button>Start</Button>],
   });
 });
 
 surveyQuestions.forEach((question, qid) => {
-  app.frame(`/${qid}`, async (c) => {
-
+  app.frame(`/quest/${qid}`, (c) => {
     let state;
 
-    const { buttonValue, deriveState, frameData } = c;
-    const fid = frameData?.fid ?? 0;
-    const attestations = await getAttestations(fid);
-
-    if (attestations.length > 0) {
-      return c.res({
-        image: '/matchImage/' + fid,
-        intents: [
-          <Button.Redirect location={`https://delegatematch.xyz/matches/${fid}`}>
-            See All
-          </Button.Redirect>
-        ],
-      });
-    }
+    const { buttonValue, deriveState } = c;
 
     if (buttonValue) {
       state = deriveState((previousState) => {
@@ -114,9 +210,15 @@ surveyQuestions.forEach((question, qid) => {
     }
 
     return c.res({
+      headers: {
+        "Cache-Control": "max-age=1000",
+      },
       action:
-        qid < surveyQuestions.length - 1 ? String(`/${qid + 1}`) : "/attest",
-      image: getFrameImage(question.prompt),
+        qid < surveyQuestions.length - 1 ? String(`/quest/${qid + 1}`) : "/attest",
+      image: getFrameImage(
+        question.prompt,
+        String(qid + 1) + "/" + String(surveyQuestions.length)
+      ),
       intents: question.choices.map((choice: string, index: number) => (
         <Button value={String(index)}>{choice}</Button>
       )),
@@ -124,6 +226,34 @@ surveyQuestions.forEach((question, qid) => {
   });
 });
 
+educationQuest.forEach((text, index) => {
+  app.frame(`/education/${index}`, (c) => {
+    return c.res({
+      headers: {
+        "Cache-Control": "max-age=1000",
+      },
+      image: getFrameImage(
+        text,
+        String(index + 1) + "/" + String(educationQuest.length),
+        true
+      ),
+      intents: [
+        <Button action={index > 0 ? "/education/" + (index - 1) : "/"}>
+          Back
+        </Button>,
+        <Button
+          action={
+            index + 1 < educationQuest.length
+              ? "/education/" + (index + 1)
+              : "/quest/0"
+          }
+        >
+          {index + 1 < educationQuest.length ? "Next" : "Start"}
+        </Button>,
+      ],
+    });
+  });
+});
 
 app.frame("/attest", async (c) => {
   const { buttonValue, deriveState, frameData } = c;
@@ -131,7 +261,6 @@ app.frame("/attest", async (c) => {
 
   let state: State;
   let statements;
-
 
   state = deriveState((previousState) => {
     previousState.currentIndex = Object.keys(previousState.responses).length;
@@ -147,29 +276,49 @@ app.frame("/attest", async (c) => {
     };
   });
 
+  console.log(statements, 'from attest frame by ', fid);
 
-
-
-  await multiAttest({
+  const attestationIds = await multiAttest({
     statements,
     fid: Number(fid),
   });
 
+  if (attestationIds &&attestationIds.length > 0) {
+    return c.res({
+      image: "/matchImage/" + fid,
+      intents: [
+        <Button.Redirect location={`https://delegatematch.xyz/matches/${fid}`}>
+          See All
+        </Button.Redirect>,
+      ],
+    });
+  }
+
   return c.res({
-    image: '/matchImage/' + fid,
+    image: getLoadingImage(),
+    action: "/existing",
+    intents: [<Button>Refresh</Button>],
+  });
+});
+
+app.frame("/existing", async (c) => {
+  const { frameData } = c;
+  const fid = frameData?.fid;
+
+  return c.res({
+    image: "/matchImage/" + fid,
     intents: [
       <Button.Redirect location={`https://delegatematch.xyz/matches/${fid}`}>
         See All
-      </Button.Redirect>
+      </Button.Redirect>,
     ],
   });
 });
 
 // create castAction for sharing
 
-
 devtools(app, {
-  serveStatic
+  serveStatic,
 });
 
 export const GET = handle(app);

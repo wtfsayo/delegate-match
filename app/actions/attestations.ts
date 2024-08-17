@@ -1,4 +1,3 @@
-import { Address } from "viem";
 import { optimismGraphQLClient } from "@/app/utils/clients";
 import { GET_ATTESTATIONS } from "@/app/utils/queries";
 import { schemaUID, AttestorAddress } from "@/app/utils/consts";
@@ -45,7 +44,7 @@ export default async function getAttestations(fid: string | number) {
 
   if(attestations.length > surveyQuestions.length) {
     console.error("Too many attestations found");
-    return attestations.slice(0, surveyQuestions.length - 1);
+    return attestations.slice(-surveyQuestions.length);
   }
 
 

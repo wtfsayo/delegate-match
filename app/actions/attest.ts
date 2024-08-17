@@ -9,50 +9,6 @@ import { schemaUID, AttestationSigner } from '../utils/consts'
 import { easServiceClient, schemaEncoder } from '../utils/clients';
 import { isInteger } from "lodash";
 
-export async function singleAttest(
-    {
-        promptStatement,
-        choiceStatement,
-        fid
-    }: {
-        promptStatement: string;
-        choiceStatement: string;
-        fid: number | string;
-    }
-) {
-    // Signer must be an ethers-like signer.
-    await easServiceClient.connect(AttestationSigner);
-
-
-    // get address from #fid using neynar
-    const address = await getFcAddress(fid);
-
-    if (!isAddress(address) || !isInteger(fid) || !(Number(fid) > 0)) {
-        console.log('Invalid Attestation Request or fid');
-        return
-    }
-
-    // Initialize SchemaEncoder with the schema string
-
-    const encodedData = schemaEncoder.encodeData([
-        { name: "promptStatement", value: promptStatement, type: "string" },
-        { name: "choiceStatement", value: choiceStatement, type: "string" },
-        { name: "fid", value: String(fid), type: "uint32" },
-    ]);
-
-
-    const tx = await easServiceClient.attest({
-        schema: schemaUID,
-        data: {
-            recipient: address,
-            revocable: true,
-            data: encodedData,
-        },
-    });
-    const newAttestationUID = await tx.wait();
-    console.log("New attestation UID:", newAttestationUID);
-}
-
 
 export async function multiAttest({
     statements,
@@ -65,19 +21,27 @@ export async function multiAttest({
     fid: number | string;
 }) {
 
+
+    console.log(statements, 'fromt attest fn');
+
     // Signer must be an ethers-like signer.
     await easServiceClient.connect(AttestationSigner);
 
+    console.log("Signer", AttestationSigner.address);
 
     // get address from #fid using neynar
     const address = await getFcAddress(fid);
 
+    console.log(address, 'of recipient from attest fn');
+
     // get existing attestations
     const existingAttestations = await getAttestations(fid);
 
+    console.log(existingAttestations, 'tried to get attestations if existing');
+
     if (existingAttestations.length > 0) {
-        console.log("Attestations already exist for this fid");
-        return;
+        console.log(existingAttestations, "Attestations already exist for this fid");
+        return existingAttestations;
     }
 
     if (!isAddress(address) || !isInteger(fid) || !(Number(fid) > 0)) {
@@ -103,16 +67,25 @@ export async function multiAttest({
             })
 
     } satisfies MultiAttestationRequest;
+    
 
+    console.log(String(attestationsData), 'from attest fn');
 
     const chainId = await easServiceClient.getChainId();
 
+    console.log(Number(chainId), 'verify chainId from attest fn'); 
+
     const tx = await easServiceClient.multiAttest([attestationsData]);
 
-    console.log(tx.receipt, chainId);
+    console.log(tx.receipt, 'if Tx receipt is available');
+
     const attestationId = await tx.wait();
 
-    console.log("New attestation ID:", attestationId);
+    if(attestationId.length > 0)  {
+        console.log("New attestation ID:", attestationId, 'from attestation function');
+        return attestationId
+    }
 
-    return attestationId;
+
+    throw new Error("No attestation ID returned or Something went wrong");
 }

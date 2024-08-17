@@ -18,3 +18,12 @@ export interface DecodedAttestation {
   promptStatement: string;
   choiceStatement: string;
 }
+
+export interface AirstackUserQueryInterface {
+    Socials: {
+      Social: {
+        userId: string;
+        userAddress: string;
+      }[];
+    };
+}
