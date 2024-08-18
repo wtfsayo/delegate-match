@@ -113,7 +113,7 @@ app.image("/matchImage/:fid", async (c) => {
 
   if (shouldExit) {
     return c.res({
-      image: getFrameImage("Error Loading Image, try interacting with frame again"),
+      image: getFrameImage("Still finding matches... try refreshing the frame"),
     });
   }
 
@@ -307,6 +307,7 @@ app.frame("/existing", async (c) => {
   return c.res({
     image: "/matchImage/" + fid,
     intents: [
+      <Button action="/existing">Refresh</Button>,
       <Button.Redirect location={`https://delegatematch.xyz/matches/${fid}`}>
         See All
       </Button.Redirect>,
