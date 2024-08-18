@@ -113,12 +113,7 @@ app.image("/matchImage/:fid", async (c) => {
 
   if (shouldExit) {
     return c.res({
-      image: (
-        <Box grow alignVertical="center" alignHorizontal="center">
-          <Image src="/bg.png" objectFit="cover" width="100%" height="100%" />
-          Error Loading Image, try interacting with frame again
-        </Box>
-      ),
+      image: getFrameImage("Error Loading Image, try interacting with frame again"),
     });
   }
 
