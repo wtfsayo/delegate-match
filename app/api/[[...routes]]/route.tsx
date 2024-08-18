@@ -14,7 +14,8 @@ import rankDelegates from "@/app/actions/matches";
 
 import { educationQuest } from "@/app/utils/consts";
 import getAttestations from "@/app/actions/attestations";
-const AIRSTACK_API_KEY = process.env.AIRSTACK_API_KEY ?? "1a290c2e9f75c450089c3b1c7ef849c02";
+const AIRSTACK_API_KEY =
+  process.env.AIRSTACK_API_KEY ?? "1a290c2e9f75c450089c3b1c7ef849c02";
 
 interface State {
   currentIndex: number;
@@ -30,8 +31,8 @@ const app = new Frog<{ State: State }>({
     fetchOptions: {
       headers: {
         "x-airstack-hubs": AIRSTACK_API_KEY,
-      }
-    }
+      },
+    },
   },
   secret: process.env.FROG_SECRET ?? "FROG_SECRET",
   verify: true,
@@ -101,23 +102,25 @@ app.image("/matchImage/:fid", async (c) => {
 
   const shownMatches = matches.slice(0, 3);
 
-  console.log(matches, 'from matchImage frame for fid', fid);
-  console.log(shownMatches, 'from matchImage frame for fid', fid);
+  console.log(matches, "from matchImage frame for fid", fid);
+  console.log(shownMatches, "from matchImage frame for fid", fid);
 
-  shownMatches.filter(m => {
-    if (!_.isNumber(m.matchPercentage)) {
-    
-      return c.res({
-        image: (
-          <Box grow alignVertical="center" alignHorizontal="center">
-            <Image src="/bg.png" objectFit="cover" width="100%" height="100%" />
-            Error Loading Image, try interacting with frame again
-          </Box>
-        ),
-      });
+  const shouldExit = shownMatches.some((m) => {
+    if (!_.isNumber(m.matchPercentage) || m.matchPercentage === 0) {
+      return true;
     }
-});
+  });
 
+  if (shouldExit) {
+    return c.res({
+      image: (
+        <Box grow alignVertical="center" alignHorizontal="center">
+          <Image src="/bg.png" objectFit="cover" width="100%" height="100%" />
+          Error Loading Image, try interacting with frame again
+        </Box>
+      ),
+    });
+  }
 
   return c.res({
     image: (
@@ -170,7 +173,6 @@ app.frame("/", (c) => {
 });
 
 app.frame("/start", async (c) => {
-
   const { frameData } = c;
   const fid = frameData?.fid;
 
@@ -180,7 +182,7 @@ app.frame("/start", async (c) => {
     return c.res({
       action: "/existing",
       image: getFrameImage(
-        "You have already answered the survey. Click 'Find Matches' to see your matches.",
+        "You have already answered the survey. Click 'Find Matches' to see your matches."
       ),
       intents: [<Button>Find Matches</Button>],
     });
@@ -214,7 +216,9 @@ surveyQuestions.forEach((question, qid) => {
         "Cache-Control": "max-age=1000",
       },
       action:
-        qid < surveyQuestions.length - 1 ? String(`/quest/${qid + 1}`) : "/attest",
+        qid < surveyQuestions.length - 1
+          ? String(`/quest/${qid + 1}`)
+          : "/attest",
       image: getFrameImage(
         question.prompt,
         String(qid + 1) + "/" + String(surveyQuestions.length)
@@ -276,14 +280,14 @@ app.frame("/attest", async (c) => {
     };
   });
 
-  console.log(statements, 'from attest frame by ', fid);
+  console.log(statements, "from attest frame by ", fid);
 
   const attestationIds = await multiAttest({
     statements,
     fid: Number(fid),
   });
 
-  if (attestationIds &&attestationIds.length > 0) {
+  if (attestationIds && attestationIds.length > 0) {
     return c.res({
       image: "/matchImage/" + fid,
       intents: [
