@@ -177,9 +177,9 @@ app.frame("/start", async (c) => {
     return c.res({
       action: "/existing",
       image: getFrameImage(
-        "You have already answered the survey. Click 'Find Matches' to see your matches."
+        "You have already answered the survey. Click 'Show Matches' to see your matches."
       ),
-      intents: [<Button>Find Matches</Button>],
+      intents: [<Button>Show Matches</Button>],
     });
   }
 

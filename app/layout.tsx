@@ -1,21 +1,34 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import "@/styles/global.css";
+import { Inter as FontSans } from "next/font/google";
+import { Metadata } from "next";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ['latin'] })
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
-  title: 'Delegate Match',
-  description: 'Delegate Match',
-}
+  title: "Delegate Match",
+  description: "Delegate Match",
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <head />
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable
+        )}
+      >
+        {children}
+      </body>
     </html>
-  )
+  );
 }
