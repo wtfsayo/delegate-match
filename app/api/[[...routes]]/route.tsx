@@ -294,7 +294,7 @@ app.frame("/attest", async (c) => {
   }
 
   return c.res({
-    image: getLoadingImage(),
+    image: "/matchImage/" + fid,
     action: "/existing",
     intents: [<Button>Refresh</Button>],
   });
