@@ -195,7 +195,7 @@ app.frame("/start", async (c) => {
   return c.res({
     action: "/quest/0",
     image: getFrameImageByUrl(
-      "Answer 11 questions aboutyour key priorities and values, and we will match you with an OP delegate.",
+      "Answer 11 questions about your key priorities and values, and we will match you with an OP delegate.",
       "/bg-intro.png"
     ),
     intents: [<Button>Start</Button>],
