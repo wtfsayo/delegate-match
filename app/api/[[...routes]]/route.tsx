@@ -156,7 +156,7 @@ app.image("/matchImage/:fid", async (c) => {
             ))}
           </HStack>
         </Box>
-        <Box position="absolute" left="20" bottom="20">
+        <Box position="absolute" right="20" bottom="20">
           <Text size="12" align="center" weight="400">
             {(profileDisplayName ?? profileName ?? fid) + "'s Delegate Matches"}
           </Text>
