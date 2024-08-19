@@ -100,6 +100,8 @@ const getLoadingImage = () => {
 app.image("/matchImage/:fid", async (c) => {
   const fid = c.req?.param()?.fid ?? "0";
   const {profileDisplayName, profileName} = await getFcName(fid);
+
+  console.log({fid, profileDisplayName, profileName}, "from matchImage frame for fid", fid); 
   const matches = await rankDelegates(fid);
 
   const shownMatches = matches.slice(0, 3);
