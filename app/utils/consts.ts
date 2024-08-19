@@ -27,6 +27,6 @@ export const AttestorAddress = AttestationSigner.address as Address;
 export const educationQuest = [
     'Delegation on the Optimism blockchain allows you to assign your voting power to a trusted delegate, without transferring your tokens.',
     'When you delegate, your tokens remain in your wallet, but the delegate can vote on your behalf in governance decisions.',
-    'To use this platform, complete the surveyand we will provide your delegate matches and the associated links on Optimism Agora.',
+    'To use this platform, complete the survey and we will provide your delegate matches and the associated links on Optimism Agora.',
     'To delegate, connect your wallet to the Optimism Agora governance platform, choose a delegate, and confirm the delegation transaction.'
 ]
