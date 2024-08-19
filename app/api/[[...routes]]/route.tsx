@@ -14,6 +14,7 @@ import rankDelegates from "@/app/actions/matches";
 
 import { educationQuest } from "@/app/utils/consts";
 import getAttestations from "@/app/actions/attestations";
+import getFcName from "@/app/actions/getFcName";
 const AIRSTACK_API_KEY =
   process.env.AIRSTACK_API_KEY ?? "1a290c2e9f75c450089c3b1c7ef849c02";
 
@@ -98,6 +99,7 @@ const getLoadingImage = () => {
 
 app.image("/matchImage/:fid", async (c) => {
   const fid = c.req?.param()?.fid ?? "0";
+  const {profileDisplayName, profileName} = await getFcName(fid);
   const matches = await rankDelegates(fid);
 
   const shownMatches = matches.slice(0, 3);
@@ -151,6 +153,11 @@ app.image("/matchImage/:fid", async (c) => {
               </Box>
             ))}
           </HStack>
+        </Box>
+        <Box position="absolute" left="20" top="20">
+          <Text size="12" align="center" weight="400">
+            {(profileDisplayName ?? profileName ?? fid) + "'s Delegate Matches"}
+          </Text>
         </Box>
       </Box>
     ),

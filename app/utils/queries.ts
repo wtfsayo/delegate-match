@@ -19,6 +19,8 @@ query MyQuery($userId: String!) {
     Social {
       userId
       userAddress
+      profileName
+      profileDisplayName
     }
   }
 }`;
