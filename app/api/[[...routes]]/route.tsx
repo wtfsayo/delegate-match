@@ -86,13 +86,7 @@ const getFrameImageByUrl = (title: string, url: string, count?: number) => {
   );
 };
 
-const getLoadingImage = () => {
-  return (
-    <Box grow alignVertical="center" alignHorizontal="center">
-      <Image src="/load3.gif" objectFit="cover" width="100%" height="100%" />
-    </Box>
-  );
-};
+
 
 app.image("/matchImage/:fid", async (c) => {
   const fid = c.req?.param()?.fid ?? "0";
