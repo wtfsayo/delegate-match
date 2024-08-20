@@ -114,7 +114,7 @@ app.image("/matchImage/:fid", async (c) => {
 
   if (shouldExit) {
     return c.res({
-      image: getLoadingImage(),
+      image: getFrameImage("Find your matches... try refreshing the frame"),
     });
   }
 
@@ -300,7 +300,7 @@ app.frame("/attest", async (c) => {
   }
 
   return c.res({
-    image: getLoadingImage(),
+    image: "/load3.gif",
     action: "/existing",
     intents: [<Button>Refresh</Button>],
   });
