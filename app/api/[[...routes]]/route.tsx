@@ -89,10 +89,7 @@ const getFrameImageByUrl = (title: string, url: string, count?: number) => {
 const getLoadingImage = () => {
   return (
     <Box grow alignVertical="center" alignHorizontal="center">
-      <Image src="/bg.png" objectFit="cover" width="100%" height="100%" />
-      <Box position="absolute" textAlign="center" margin="64">
-        <Image src="/laod3.gif" width="64" height="64" />
-      </Box>
+      <Image src="/load3.gif" objectFit="cover" width="100%" height="100%" />
     </Box>
   );
 };
@@ -117,7 +114,7 @@ app.image("/matchImage/:fid", async (c) => {
 
   if (shouldExit) {
     return c.res({
-      image: getFrameImage("Still finding matches... try refreshing the frame"),
+      image: getLoadingImage(),
     });
   }
 
@@ -303,7 +300,7 @@ app.frame("/attest", async (c) => {
   }
 
   return c.res({
-    image: "/matchImage/" + fid,
+    image: getLoadingImage(),
     action: "/existing",
     intents: [<Button>Refresh</Button>],
   });
