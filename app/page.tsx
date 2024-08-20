@@ -1,7 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Image from "next/image";
 import TwoColumnLayout from "@/components/ui/twoColLayout";
-import { cn } from "@/lib/utils";
 import { getFrameMetadata } from "frog/next";
 import { Metadata } from "next";
 
@@ -31,7 +28,7 @@ const imagesSingle: ImageProps[] = [
 
 const GridImages: React.FC<ImagesProps> = ({ images }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-full w-full">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-full w-full">
       {images.map((image, index) => (
         <ImageContainer
           key={index}
@@ -51,7 +48,6 @@ const SingleImages: React.FC<ImagesProps> = ({ images }) => {
           key={index}
           src={image.src}
           alt={image.alt}
-          padding={32}
         />
       ))}
     </>
@@ -70,7 +66,7 @@ const LogoColumn: React.FC = () => {
 
 const IntroText = () => {
   return (
-    <div className="text-left h-full p-12 border border-gray-200 rounded-lg">
+    <div className="text-left bg-white h-full p-16 border border-gray-200 rounded-lg">
       <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
         {homePageIntroText[0]}
       </h2>

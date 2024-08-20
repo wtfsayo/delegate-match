@@ -9,10 +9,10 @@ const TwoColumnLayout: FC<TwoColumnLayoutProps> = ({ col1, col2 }) => {
   return (
     <div className="container mx-auto p-4 ">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="bg-white p-6 rounded-lg ">
+        <div className="rounded-lg ">
           {col1}
         </div>
-        <div className="bg-white p-6 rounded-lg h-full">
+        <div className="rounded-lg h-full">
           {col2}
         </div>
       </div>
