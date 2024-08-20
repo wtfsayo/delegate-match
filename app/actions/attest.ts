@@ -5,8 +5,8 @@ import type { MultiAttestationRequest, AttestationRequestData } from "@ethereum-
 import getFcAddress from './getFcAddress';
 import getAttestations from "./attestations";
 // consts and clients
-import { schemaUID, AttestationSigner } from '../utils/consts'
-import { easServiceClient, schemaEncoder } from '../utils/clients';
+import { schemaUID, AttestationSigner } from '@/app/utils/consts'
+import { easServiceClient, schemaEncoder } from '@/app/utils/clients';
 import { isInteger } from "lodash";
 
 
@@ -29,7 +29,7 @@ export async function multiAttest({
 
     console.log("Signer", AttestationSigner.address);
 
-    // get address from #fid using neynar
+    // get address from #fid using airstack
     const address = await getFcAddress(fid);
 
     console.log(address, 'of recipient from attest fn');

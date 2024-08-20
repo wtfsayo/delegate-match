@@ -2,7 +2,6 @@
 
 import { Button, Frog } from "frog";
 import { devtools } from "frog/dev";
-import { neynar } from "frog/hubs";
 import { handle } from "frog/next";
 import { serveStatic } from "frog/serve-static";
 import _ from "lodash";

@@ -2,8 +2,9 @@ import TwoColumnLayout from "@/components/ui/twoColLayout";
 import { getFrameMetadata } from "frog/next";
 import { Metadata } from "next";
 
-import { homePageIntroText } from "@/app/utils/consts";
-import { ImageContainer, ImageProps, ImagesProps } from "@/components/ui/ImageContainer";
+import { homePageIntroText, imagesSingle, imagesGrid } from "@/app/utils/consts";
+import { ImageContainer, ImagesProps } from "@/components/ui/ImageContainer";
+
 
 export async function generateMetadata(): Promise<Metadata> {
   const frameTags = await getFrameMetadata(
@@ -13,16 +14,6 @@ export async function generateMetadata(): Promise<Metadata> {
     other: frameTags,
   };
 }
-
-const imagesGrid: ImageProps[] = [
-  { src: "/dm-vec.png", alt: "Delegate Match Mark",  },
-  { src: "/sun-vec.png", alt: "Optimism Sun like image",  },
-];
-
-const imagesSingle: ImageProps[] = [
-  { src: "/logo-dm.png", alt: "Delegate Match" },
-  { src: "/logo-rg.png", alt: "Raidguild"},
-];
 
 
 

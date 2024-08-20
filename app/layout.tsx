@@ -24,7 +24,7 @@ export default function RootLayout({
       <head />
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased bg-[url('/bg-ray.png')] bg-contain bg-no-repeat bg-center mt-20",
+          "min-h-screen bg-background font-sans antialiased bg-[url('/bg-ray.png')] bg-contain bg-no-repeat bg-center md:mt-20",
           fontSans.className
         )}
       >

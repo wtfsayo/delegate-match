@@ -4,7 +4,7 @@ import { schemaUID, AttestorAddress } from "@/app/utils/consts";
 import getFcAddress from "@/app/actions/getFcAddress";
 
 import { AttestationData } from "@/app/utils/interfaces";
-import { surveyQuestions } from "../utils/surveyQuestions";
+import { surveyQuestions } from "@/app/utils/surveyQuestions";
 
 export default async function getAttestations(fid: string | number) {
   if (!fid) {

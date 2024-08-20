@@ -1,6 +1,5 @@
-import { NeynarAPIClient } from "@neynar/nodejs-sdk";
 import { EAS, SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
-import { easContractAddress } from "../utils/consts";
+import { easContractAddress } from "@/app/utils/consts";
 import { GraphQLClient } from "graphql-request";
 
 import { optimism, sepolia, optimismSepolia } from "viem/chains";

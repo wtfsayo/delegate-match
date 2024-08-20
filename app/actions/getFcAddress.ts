@@ -1,7 +1,7 @@
 import { getAddress } from "viem";
-import { airstackClient } from "../utils/clients";
-import { GET_USER_BY_ID } from "../utils/queries";
-import { AirstackUserQueryInterface } from "../utils/interfaces";
+import { airstackClient } from "@/app/utils/clients";
+import { GET_USER_BY_ID } from "@/app/utils/queries";
+import { AirstackUserQueryInterface } from "@/app/utils/interfaces";
 import _ from "lodash";
 
 export default async function getFcAddress(fid: number | string) {
