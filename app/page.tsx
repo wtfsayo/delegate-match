@@ -1,11 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import TwoColumnLayout from "@/components/ui/twoColLayout";
-import { AspectRatio } from "@radix-ui/react-aspect-ratio";
+import { cn } from "@/lib/utils";
 import { getFrameMetadata } from "frog/next";
 import { Metadata } from "next";
 
 import { homePageIntroText } from "@/app/utils/consts";
+import { ImageContainer, ImageProps, ImagesProps } from "@/components/ui/ImageContainer";
 
 export async function generateMetadata(): Promise<Metadata> {
   const frameTags = await getFrameMetadata(
@@ -16,47 +17,52 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-const LogoColumn = () => {
+const imagesGrid: ImageProps[] = [
+  { src: "/dm-vec.png", alt: "Delegate Match Mark",  },
+  { src: "/sun-vec.png", alt: "Optimism Sun like image",  },
+];
+
+const imagesSingle: ImageProps[] = [
+  { src: "/logo-dm.png", alt: "Delegate Match" },
+  { src: "/logo-rg.png", alt: "Raidguild"},
+];
+
+
+
+const GridImages: React.FC<ImagesProps> = ({ images }) => {
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <AspectRatio ratio={320 / 224} className="bg-white border-1">
-          <Image
-            src="/dm-vec.png"
-            alt="Delegate Match Mark"
-            fill
-            className="rounded-md object-cover"
-          />
-        </AspectRatio>
-        <AspectRatio ratio={320 / 224} className="bg-white border-1">
-          <Image
-            src="/sun-vec.png"
-            alt="Optimism Sun like image"
-            fill
-            className="rounded-md object-cover"
-          />
-        </AspectRatio>
-      </div>
-      <div className="w-full mt-4">
-        <AspectRatio ratio={320 / 224} className="bg-white border-1">
-          <Image
-            src="/logo-dm.png"
-            alt="Delegate Match"
-            fill
-            className="rounded-md object-cover"
-          />
-        </AspectRatio>
-      </div>
-      <div className="w-full mt-4">
-        <AspectRatio ratio={320 / 224} className="bg-white border-1">
-          <Image
-            src="/logo-rg.png"
-            alt="Raidguild"
-            fill
-            className="rounded-md object-cover"
-          />
-        </AspectRatio>
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-full w-full">
+      {images.map((image, index) => (
+        <ImageContainer
+          key={index}
+          src={image.src}
+          alt={image.alt}
+        />
+      ))}
+    </div>
+  );
+};
+
+const SingleImages: React.FC<ImagesProps> = ({ images }) => {
+  return (
+    <>
+      {images.map((image, index) => (
+        <ImageContainer
+          key={index}
+          src={image.src}
+          alt={image.alt}
+          padding={32}
+        />
+      ))}
+    </>
+  );
+};
+
+const LogoColumn: React.FC = () => {
+  return (
+    <div className="flex flex-col items-center justify-center space-y-4 w-full">
+      <GridImages images={imagesGrid} />
+      <SingleImages images={imagesSingle} />
     </div>
   );
 };
@@ -64,7 +70,7 @@ const LogoColumn = () => {
 
 const IntroText = () => {
   return (
-    <div className="text-left">
+    <div className="text-left h-full p-12 border border-gray-200 rounded-lg">
       <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
         {homePageIntroText[0]}
       </h2>
