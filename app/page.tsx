@@ -19,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
 const LogoColumn = () => {
   return (
     <div className="flex flex-col items-center justify-center">
-      <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <AspectRatio ratio={320 / 224} className="bg-white border-1">
           <Image
             src="/dm-vec.png"
@@ -37,25 +37,30 @@ const LogoColumn = () => {
           />
         </AspectRatio>
       </div>
-      <AspectRatio ratio={320 / 224} className="bg-white border-1">
-        <Image
-          src="/logo-dm.png"
-          alt="Delegate Match"
-          fill
-          className="rounded-md object-cover"
-        />
-      </AspectRatio>
-      <AspectRatio ratio={320 / 224} className="bg-white border-1">
-        <Image
-          src="/logo-rg.png"
-          alt="Raidguild"
-          fill
-          className="rounded-md object-cover"
-        />
-      </AspectRatio>
+      <div className="w-full mt-4">
+        <AspectRatio ratio={320 / 224} className="bg-white border-1">
+          <Image
+            src="/logo-dm.png"
+            alt="Delegate Match"
+            fill
+            className="rounded-md object-cover"
+          />
+        </AspectRatio>
+      </div>
+      <div className="w-full mt-4">
+        <AspectRatio ratio={320 / 224} className="bg-white border-1">
+          <Image
+            src="/logo-rg.png"
+            alt="Raidguild"
+            fill
+            className="rounded-md object-cover"
+          />
+        </AspectRatio>
+      </div>
     </div>
   );
 };
+
 
 const IntroText = () => {
   return (
@@ -64,16 +69,11 @@ const IntroText = () => {
         {homePageIntroText[0]}
       </h2>
 
-      <p className="leading-7 [&:not(:first-child)]:mt-6">
-        {homePageIntroText[1]}
-      </p>
-
-      <p className="leading-7 [&:not(:first-child)]:mt-6">
-        {homePageIntroText[2]}
-      </p>
-      <p className="leading-7 [&:not(:first-child)]:mt-6">
-        {homePageIntroText[3]}
-      </p>
+      {homePageIntroText.slice(1).map((text, index) => (
+        <p key={index} className="leading-7 [&:not(:first-child)]:mt-6">
+          {text}
+        </p>
+      ))}
     </div>
   );
 };

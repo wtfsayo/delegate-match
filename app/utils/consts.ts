@@ -41,6 +41,9 @@ export const educationQuest = [
 export const homePageIntroText = [
   "Introducing Delegate Match", "A revolutionary governance tool designed to empower OP token holders in the Optimism ecosystem.",
   "Our mission is to bridge the gap between token holders and their delegates, ensuring that voting power is aligned with shared values and a collective vision for the network.",
-  "Too often, OP holders are left in the dark when it comes to understanding the governance philosophies and decision-making processes of potential delegates. The Delegate Match Farcaster Frame changes that. By adapting the proven model of Voting Advice Applications, we've created a Delegate Match Application that puts the power back in the hands of the community.",
-  "Through a simple survey, OP holders can share their priorities and preferences across a range of governance-related topics. The algorithm then matches these responses with the self-reported values of delegates, providing a clear and transparent compatibility score. This empowers token holders to make informed decisions about where to delegate their voting power.",
+  "Too often, OP holders are left in the dark when it comes to understanding the governance philosophies and decision-making processes of potential delegates.",
+  "The Delegate Match Farcaster Frame changes that. By adapting the proven model of Voting Advice Applications, we've created a Delegate Match Application that puts the power back in the hands of the community.",
+  "Through a simple survey, OP holders can share their priorities and preferences across a range of governance-related topics.", 
+  "The algorithm then matches these responses with the self-reported values of delegates, providing a clear and transparent compatibility score.",
+  "This empowers token holders to make informed decisions about where to delegate their voting power.",
 ];
