@@ -27,7 +27,7 @@ export default async function Page({ params }: { params: { fid: string } }) {
 
   return (
     <TwoColumnLayout
-      col2={<DelegateMatches fid={fid} />}
+      col2={<MatchColumn fid={fid} />}
       col1={<CongratsText />}
     />
   );
