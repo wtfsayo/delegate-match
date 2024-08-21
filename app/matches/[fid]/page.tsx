@@ -36,7 +36,7 @@ export default async function Page({ params }: { params: { fid: string } }) {
 
 const MatchColumn: React.FC<{ fid: string }> = async ({ fid }) => {
   return (
-    <div className="flex flex-col items-center justify-center space-y-4 w-full h-full">
+    <div className="flex flex-col items-center justify-center space-y-4 w-full">
       <ImageContainer src={imagesSingle[0].src} alt={imagesSingle[0].alt} />
       <DelegateMatches fid={fid} />
     </div>
@@ -47,7 +47,7 @@ const MatchColumn: React.FC<{ fid: string }> = async ({ fid }) => {
 const DelegateMatches: React.FC<{ fid: string }> = async ({ fid }) => {
   const delegateMatches = await rankDelegates(fid!);
   return (
-    <ScrollArea className="flex flex-col text-left bg-white p-16 border border-gray-200 rounded-lg gap-6">
+    <ScrollArea className="flex flex-col text-left bg-white p-8 border border-gray-200 rounded-lg gap-6 w-full h-full">
       <ol>
         {delegateMatches.map((delegate) => (
           <li>
