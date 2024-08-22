@@ -59,6 +59,16 @@
   }
 }
 
+/* Inter will be the default font for the entire app */
+html, body, p {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Sora will be used specifically for h2 elements */
+h2 {
+  font-family: 'Sora', sans-serif;
+}
+
 @layer base {
   * {
     @apply border-border;
