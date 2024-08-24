@@ -7,6 +7,7 @@ import { congratsText, imagesSingle } from "@/app/utils/consts";
 import { ImageContainer, ImagesProps } from "@/components/ui/ImageContainer";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { DevBundlerService } from "next/dist/server/lib/dev-bundler-service";
+import { DelegateCard } from "@/components/ui/delegateCard";
 
 export async function generateMetadata(): Promise<Metadata> {
   const frameTags = await getFrameMetadata(
@@ -47,18 +48,14 @@ const MatchColumn: React.FC<{ fid: string }> = async ({ fid }) => {
 const DelegateMatches: React.FC<{ fid: string }> = async ({ fid }) => {
   const delegateMatches = await rankDelegates(fid!);
   return (
-    <ScrollArea className="flex flex-col text-left bg-white p-8 border border-gray-200 rounded-lg gap-6 w-full h-full">
-      <ol>
-        {delegateMatches.map((delegate) => (
-          <li>
-            <a
-              href={`https://vote.optimism.io/delegates/${delegate.delegateID}`}
-            >
-              {delegate.delegateID + " : " + delegate.matchPercentage + "%"}
-            </a>
-          </li>
-        ))}
-      </ol>
+    <ScrollArea className="flex flex-col text-left space-y-4 w-full h-full">
+
+      {delegateMatches.map((delegate) => (
+
+        <DelegateCard delegate={delegate} />
+
+      ))}
+
     </ScrollArea>
   );
 };
@@ -102,7 +99,7 @@ const CongratsText = () => {
           ))}
         </span>
       </div>
-      <ImageContainer src={imagesSingle[1].src} alt={imagesSingle[1].alt} /> 
+      <ImageContainer src={imagesSingle[1].src} alt={imagesSingle[1].alt} />
     </div>
   );
 };
