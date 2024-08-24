@@ -48,7 +48,7 @@ const MatchColumn: React.FC<{ fid: string }> = async ({ fid }) => {
 const DelegateMatches: React.FC<{ fid: string }> = async ({ fid }) => {
   const delegateMatches = await rankDelegates(fid!);
   return (
-    <ScrollArea className="flex flex-col text-left gap-5 w-full h-full">
+    <ScrollArea className="flex flex-col text-left space-y-4 w-full h-full">
 
       {delegateMatches.map((delegate) => (
 
