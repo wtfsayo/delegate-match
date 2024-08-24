@@ -1,13 +1,17 @@
 import "@/styles/global.css";
-import { Sora } from "next/font/google";
+import { Inter, Sora } from "next/font/google";
 import { Metadata } from "next";
 import { cn } from "@/lib/utils";
 
-const fontSans = Sora({
+const fontInter = Inter({
   subsets: ["latin"],
   display: "swap",
 });
 
+const fontSora = Sora({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Delegate Match",
@@ -24,8 +28,8 @@ export default function RootLayout({
       <head />
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased bg-[url('/bg-ray.png')] bg-contain bg-no-repeat bg-center md:mt-20",
-          fontSans.className
+          "min-h-screen bg-background antialiased bg-[url('/bg-ray.png')] bg-cover bg-no-repeat bg-center md:mt-20",
+          // fontSora.className
         )}
       >
         {children}
