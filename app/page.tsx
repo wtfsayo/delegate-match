@@ -1,9 +1,10 @@
 import TwoColumnLayout from "@/components/ui/twoColLayout";
 import { getFrameMetadata } from "frog/next";
 import { Metadata } from "next";
-
+import Image from "next/image";
 import { homePageIntroText, imagesSingle, imagesGrid } from "@/app/utils/consts";
 import { ImageContainer, ImagesProps } from "@/components/ui/ImageContainer";
+import Link from "next/link";
 
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -67,6 +68,9 @@ const IntroText = () => {
           {text}
         </p>
       ))}
+      <Link href="https://warpcast.com/delegatematch">
+        <Image src="/warpcast.webp" alt="warpcast" width={50} height={50} className="grayscale rounded-md mt-3"/>
+      </Link>
     </div>
   );
 };

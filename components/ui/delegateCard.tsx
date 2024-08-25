@@ -30,7 +30,7 @@ export const DelegateCard = async ({ delegate }: { delegate: RankedDelegate }) =
 
     return (
 
-        <Card className="border border-gray-200 rounded-lg p-8 mt-3">
+        <Card className="border border-gray-200 rounded-lg p-4 md:p-8 mt-3 w-full">
             <CardTitle className="flex flex-row items-center gap-2">
                 <Avatar>
                     <AvatarImage
@@ -42,7 +42,7 @@ export const DelegateCard = async ({ delegate }: { delegate: RankedDelegate }) =
 
 
                 </Avatar>
-                <div className="flex flex-col gap-1 align-left items-start">
+                <div className="flex flex-col gap-0.5 align-left items-start">
                     <span>
                         {delegate.delegateID}
                     </span>
@@ -54,8 +54,9 @@ export const DelegateCard = async ({ delegate }: { delegate: RankedDelegate }) =
                     </p>
                 </div>
             </CardTitle>
-            <CardContent className="p-0 mt-4">
-                <div className="mb-4">{delegateDetails.statement.payload.delegateStatement.substring(0, 150) + "..."}</div>
+            <CardContent className="p-0 mt-4 w-full h-full">
+            <div className="mb-4 h-full line-clamp-4">
+            {delegateDetails.statement.payload.delegateStatement}</div>
 
                 <TooltipProvider>
                     <div className="flex flex-row gap-2">
@@ -84,7 +85,7 @@ export const DelegateCard = async ({ delegate }: { delegate: RankedDelegate }) =
 
 
             </CardContent>
-            <CardFooter className="flex flex-row items-center justify-between p-0 mt-3">
+            <CardFooter className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between p-0 sm:mt-3 w-full mt-5 gap-2">
                 <span className="gap-2 flex flex-row items-center">
                     <Avatar>
                         <AvatarImage
@@ -94,7 +95,7 @@ export const DelegateCard = async ({ delegate }: { delegate: RankedDelegate }) =
                     <h2 className="font-semibold ">{delegate.matchPercentage}% Match</h2>
                 </span>
                 <Link href={`https://vote.optimism.io/delegates/${delegate.delegateID}`} passHref>
-                    <div className="bg-white border border-gray-200 rounded-md px-4 py-2 hover:bg-slate-100">
+                    <div className="bg-white border border-gray-200 rounded-md px-4 py-2 hover:bg-slate-100 mt-5 sm:mt-0">
                         View Delegate
                     </div>
                 </Link>

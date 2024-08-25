@@ -5,8 +5,6 @@ import getAttestations from "@/app/actions/attestations";
 import rankDelegates from "@/app/actions/matches";
 import { congratsText, imagesSingle } from "@/app/utils/consts";
 import { ImageContainer, ImagesProps } from "@/components/ui/ImageContainer";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { DevBundlerService } from "next/dist/server/lib/dev-bundler-service";
 import { DelegateCard } from "@/components/ui/delegateCard";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -27,13 +25,9 @@ export default async function Page({ params }: { params: { fid: string } }) {
   }
 
   return (
-    <TwoColumnLayout
-      col2={<MatchColumn fid={fid} />}
-      col1={<CongratsText />}
-    />
+    <TwoColumnLayout col2={<MatchColumn fid={fid} />} col1={<CongratsText />} />
   );
 }
-
 
 const MatchColumn: React.FC<{ fid: string }> = async ({ fid }) => {
   return (
@@ -44,19 +38,14 @@ const MatchColumn: React.FC<{ fid: string }> = async ({ fid }) => {
   );
 };
 
-
 const DelegateMatches: React.FC<{ fid: string }> = async ({ fid }) => {
   const delegateMatches = await rankDelegates(fid!);
   return (
-    <ScrollArea className="flex flex-col text-left space-y-4 w-full h-full">
-
+    <div className="flex flex-col items-center justify-center space-y-4 w-full">
       {delegateMatches.map((delegate) => (
-
         <DelegateCard delegate={delegate} />
-
       ))}
-
-    </ScrollArea>
+    </div>
   );
 };
 
