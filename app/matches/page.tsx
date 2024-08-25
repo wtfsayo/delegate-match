@@ -57,7 +57,7 @@ const LogoColumn: React.FC = () => {
 
 const IntroText = () => {
   return (
-    <div className="text-left bg-white h-full p-16 border border-gray-200 rounded-lg">
+    <div className="text-left bg-white h-full p-4 sm:p-8 md:p-12 lg:p-16 border border-gray-200 rounded-lg">
       <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
         {homePageIntroText[0]}
       </h2>
