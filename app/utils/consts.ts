@@ -58,7 +58,7 @@ export const congratsText = [
   "Match Percentage: This score indicates how closely each delegate's positions align with your responses. A higher percentage means a closer match.",
   "Top Matches: The parties or candidates listed at the top are those with the highest alignment to your views.",
   "Next Steps",
-  "Learn More: Click the button to read more about the delegate’s positions and policies on Optimism Agora.",
+  "View Delegate: Click the button to read more about the delegate’s positions and policies on Optimism Agora.",
   "Delegate your OP: Use this information to make an informed decision to delegate your tokens for OP governance.",
   "Share Your Results: Let your friends and family know about your matches by sharing your results on social media."
 ];
