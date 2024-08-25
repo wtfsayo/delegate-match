@@ -63,7 +63,7 @@ const DelegateMatches: React.FC<{ fid: string }> = async ({ fid }) => {
 const CongratsText = () => {
   return (
     <div className="flex flex-col items-center justify-center space-y-4 w-full">
-      <div className="flex flex-col text-left bg-white h-full p-16 border border-gray-200 rounded-lg gap-6">
+      <div className="flex flex-col text-left bg-white h-full p-4 sm:p-8 md:p-12 lg:p-16 border border-gray-200 rounded-lg gap-6">
         <span>
           <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
             {congratsText[0]}
