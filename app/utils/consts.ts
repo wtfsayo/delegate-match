@@ -3,6 +3,7 @@ import { optimismSepolia, optimism } from "viem/chains";
 import type { Address, Hex } from "viem";
 import { Wallet, JsonRpcProvider } from "ethers";
 import { ImageProps } from "@/components/ui/ImageContainer";
+import Link from 'next/link'
 
 const relayerPvtKey = process.env.RELAYER_PRIVATE_KEY! as Hex;
 
@@ -45,10 +46,9 @@ export const homePageIntroText = [
   "Too often, OP holders are left in the dark when it comes to understanding the governance philosophies and decision-making processes of potential delegates.",
   "The Delegate Match Farcaster Frame changes that. By adapting the proven model of Voting Advice Applications, we've created a Delegate Match Application that puts the power back in the hands of the community.",
   "Through a simple survey, OP holders can share their priorities and preferences across a range of governance-related topics.", 
-  "The algorithm then matches these responses with the self-reported values of delegates, providing a clear and transparent compatibility score.",
+  "The algorithm then matches these responses with the values of select OP delegates, providing a clear and transparent compatibility score.",
   "This empowers token holders to make informed decisions about where to delegate their voting power.",
 ];
-
 
 export const congratsText = [
   "Congratulations!",
