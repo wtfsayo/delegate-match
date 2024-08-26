@@ -68,9 +68,21 @@ const IntroText = () => {
           {text}
         </p>
       ))}
-      <Link href="https://warpcast.com/delegatematch">
-        <Image src="/warpcast.webp" alt="warpcast" width={50} height={50} className="grayscale rounded-md mt-3"/>
-      </Link>
+
+      <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between p-0 w-full mt-6 gap-2">
+          <Link href="https://warpcast.com/delegatematch" target="_blank">
+            <Image src="/warpcast.png" alt="warpcast" width={42} height={42}/>
+          </Link>
+
+          <Link href={`https://warpcast.com/delegatematch/0xfca020d4`}  target={`_blank`}>
+              <div className="bg-white border border-gray-200 rounded-md px-4 py-2 hover:bg-slate-100">
+                  Get Started
+              </div>
+          </Link>
+      </div>
+
+
+
     </div>
   );
 };
