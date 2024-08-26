@@ -243,7 +243,7 @@ educationQuest.forEach((text, index) => {
           action={
             index + 1 < educationQuest.length
               ? "/education/" + (index + 1)
-              : "/quest/0"
+              : "/start"
           }
         >
           {index + 1 < educationQuest.length ? "Next" : "Start"}
