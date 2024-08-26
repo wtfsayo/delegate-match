@@ -67,7 +67,7 @@ const CongratsText = () => {
           ))}
         </span>
         <span>
-          <h2 className="scroll-m-20 pb-2 text-3xl mt-3 font-semibold tracking-tight mt-3">
+          <h2 className="scroll-m-20 pb-2 text-3xl mt-3 font-semibold tracking-tight">
             {congratsText[3]}
           </h2>
 
@@ -79,7 +79,7 @@ const CongratsText = () => {
         </span>
 
         <span>
-          <h2 className="scroll-m-20 pb-2 text-3xl mt-3 font-semibold tracking-tight mt-3">
+          <h2 className="scroll-m-20 pb-2 text-3xl mt-3 font-semibold tracking-tight">
             {congratsText[6]}
           </h2>
 
@@ -89,7 +89,7 @@ const CongratsText = () => {
             </p>
           ))}
         </span>
-        <p className="italic text-sm mt-6">
+        <p className="italic text-sm mt-3">
           Disclaimer: This is a proof of concept for representation purposes only. Please conduct your own research.
         </p>
         <span className="mt-6">
