@@ -6,6 +6,8 @@ import rankDelegates from "@/app/actions/matches";
 import { congratsText, imagesSingle } from "@/app/utils/consts";
 import { ImageContainer, ImagesProps } from "@/components/ui/ImageContainer";
 import { DelegateCard } from "@/components/ui/delegateCard";
+import Image from "next/image";
+import Link from "next/link";
 
 export async function generateMetadata(): Promise<Metadata> {
   const frameTags = await getFrameMetadata(
@@ -88,6 +90,14 @@ const CongratsText = () => {
               {index + 1}. {text}
             </p>
           ))}
+        </span>
+        <p className="italic text-sm mt-6">
+          *Disclaimer: This minimum-viable product is a proof of concept for Optimism Retrofunding 6. The delegates were selected based on their active participation on Optimism platforms. The algorithm infers delegate positions from their Agora delegate statements.*
+        </p>
+        <span className="mt-6">
+          <Link href="https://warpcast.com/delegatematch/0xfca020d4">
+            <Image src="/warpcast.png" alt="warpcast" width={42} height={42}/>
+          </Link>
         </span>
       </div>
       <ImageContainer src={imagesSingle[1].src} alt={imagesSingle[1].alt} />
