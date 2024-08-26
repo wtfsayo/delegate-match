@@ -20,6 +20,8 @@ export default async function Page({ params }: { params: { fid: string } }) {
   const fid = params.fid;
   const attestations = await getAttestations(fid);
 
+  console.log(attestations, "from matches page for fid", fid);
+
   if (!attestations.length) {
     return <main>{`No attestations found for this fid`}</main>;
   }
