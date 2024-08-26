@@ -285,6 +285,7 @@ app.frame("/attest", async (c) => {
     return c.res({
       image: "/matchImage/" + fid,
       intents: [
+        <Button action="/existing">Refresh</Button>,
         <Button.Redirect location={`https://delegatematch.xyz/matches/${fid!}`}>
           See All
         </Button.Redirect>,
@@ -306,7 +307,6 @@ app.frame("/existing", async (c) => {
   return c.res({
     image: "/matchImage/" + fid,
     intents: [
-      <Button action="/existing">Refresh</Button>,
       <Button.Redirect location={`https://delegatematch.xyz/matches/${fid!}`}>
         See All
       </Button.Redirect>,
