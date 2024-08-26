@@ -90,7 +90,7 @@ const CongratsText = () => {
           ))}
         </span>
         <p className="italic text-sm mt-6">
-          *Disclaimer: This minimum-viable product is a proof of concept for Optimism Retrofunding 6. The delegates were selected based on their active participation on Optimism platforms. The algorithm infers delegate positions from their Agora delegate statements.*
+          Disclaimer: This is a proof of concept for representation purposes only. Please conduct your own research.
         </p>
         <span className="mt-6">
           <Link href="https://warpcast.com/delegatematch/0xfca020d4">
