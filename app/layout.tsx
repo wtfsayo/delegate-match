@@ -2,6 +2,7 @@ import "@/styles/global.css";
 import { Inter, Sora } from "next/font/google";
 import { Metadata } from "next";
 import { cn } from "@/lib/utils";
+import { Analytics } from "@vercel/analytics/react";
 
 const fontInter = Inter({
   subsets: ["latin"],
@@ -20,13 +21,14 @@ export const metadata: Metadata = {
     type: "website",
     url: "https://delegatematch.xyz",
     title: "Delegate Match",
-    description: "Find the perfect delegate for your OP tokens in the Optimism ecosystem.",
+    description:
+      "Find the perfect delegate for your OP tokens in the Optimism ecosystem.",
     images: [
       {
         url: "/twitter-card.png",
         width: 1200,
         height: 630,
-        alt: "Delegate Match - The Future of Delegation", 
+        alt: "Delegate Match - The Future of Delegation",
       },
     ],
   },
@@ -35,8 +37,9 @@ export const metadata: Metadata = {
     site: "@Delegate_Match",
     creator: "@suede0619",
     title: "Delegate Match",
-    description: "Find the perfect governance delegate for your OP tokens in the Optimism ecosystem.",
-    images: "/twitter-card.png", 
+    description:
+      "Find the perfect governance delegate for your OP tokens in the Optimism ecosystem.",
+    images: "/twitter-card.png",
   },
 };
 
@@ -54,6 +57,7 @@ export default function RootLayout({
           // fontSora.className
         )}
       >
+        <Analytics />
         {children}
       </body>
     </html>

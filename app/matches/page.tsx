@@ -2,30 +2,29 @@ import TwoColumnLayout from "@/components/ui/twoColLayout";
 import { getFrameMetadata } from "frog/next";
 import { Metadata } from "next";
 
-import { homePageIntroText, imagesSingle, imagesGrid } from "@/app/utils/consts";
+import {
+  homePageIntroText,
+  imagesSingle,
+  imagesGrid,
+} from "@/app/utils/consts";
 import { ImageContainer, ImagesProps } from "@/components/ui/ImageContainer";
 
+import { Analytics } from "@vercel/analytics/react";
 
 export async function generateMetadata(): Promise<Metadata> {
   const frameTags = await getFrameMetadata(
-    `${process.env.VERCEL_URL || "http://localhost:3000"}/api`
+    `${process.env.VERCEL_URL || "http://localhost:3000"}/api`,
   );
   return {
     other: frameTags,
   };
 }
 
-
-
 const GridImages: React.FC<ImagesProps> = ({ images }) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-full w-full">
       {images.map((image, index) => (
-        <ImageContainer
-          key={index}
-          src={image.src}
-          alt={image.alt}
-        />
+        <ImageContainer key={index} src={image.src} alt={image.alt} />
       ))}
     </div>
   );
@@ -35,11 +34,7 @@ const SingleImages: React.FC<ImagesProps> = ({ images }) => {
   return (
     <>
       {images.map((image, index) => (
-        <ImageContainer
-          key={index}
-          src={image.src}
-          alt={image.alt}
-        />
+        <ImageContainer key={index} src={image.src} alt={image.alt} />
       ))}
     </>
   );
@@ -53,7 +48,6 @@ const LogoColumn: React.FC = () => {
     </div>
   );
 };
-
 
 const IntroText = () => {
   return (
@@ -72,5 +66,9 @@ const IntroText = () => {
 };
 
 export default function Home() {
-  return <TwoColumnLayout col1={<LogoColumn />} col2={<IntroText />} />;
+  return;
+  <>
+    <Analytics />
+    <TwoColumnLayout col1={<LogoColumn />} col2={<IntroText />} />
+  </>;
 }

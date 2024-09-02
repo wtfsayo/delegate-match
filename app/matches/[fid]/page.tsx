@@ -9,9 +9,11 @@ import { DelegateCard } from "@/components/ui/delegateCard";
 import Image from "next/image";
 import Link from "next/link";
 
+import { Analytics } from "@vercel/analytics/react";
+
 export async function generateMetadata(): Promise<Metadata> {
   const frameTags = await getFrameMetadata(
-    `${process.env.VERCEL_URL || "http://localhost:3000"}/api`
+    `${process.env.VERCEL_URL || "http://localhost:3000"}/api`,
   );
   return {
     other: frameTags,
@@ -36,6 +38,7 @@ export default async function Page({ params }: { params: { fid: string } }) {
 const MatchColumn: React.FC<{ fid: string }> = async ({ fid }) => {
   return (
     <div className="flex flex-col items-center justify-center space-y-4 w-full">
+      <Analytics />
       <ImageContainer src={imagesSingle[0].src} alt={imagesSingle[0].alt} />
       <DelegateMatches fid={fid} />
     </div>
@@ -92,11 +95,12 @@ const CongratsText = () => {
           ))}
         </span>
         <p className="italic text-sm mt-3">
-          Disclaimer: This is a proof of concept for representation purposes only. Please conduct your own research.
+          Disclaimer: This is a proof of concept for representation purposes
+          only. Please conduct your own research.
         </p>
         <span className="mt-6">
           <Link href="https://warpcast.com/delegatematch/0xfca020d4">
-            <Image src="/warpcast.png" alt="warpcast" width={42} height={42}/>
+            <Image src="/warpcast.png" alt="warpcast" width={42} height={42} />
           </Link>
         </span>
       </div>
