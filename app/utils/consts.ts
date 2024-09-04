@@ -60,7 +60,8 @@ export const congratsText = [
   "Next Steps",
   "View Delegate: Click the button to read more about the delegate’s positions and policies on Optimism Agora.",
   "Delegate your OP: Use this information to make an informed decision to delegate your tokens for OP governance.",
-  "Share Your Results: Let your friends and family know about your matches by sharing your results on social media."
+  "Share Your Results: Let your friends and family know about your matches by sharing your results on social media.",
+  "Mint the Originals NFT: Rewards are inbound for those who hold this legendary NFT."
 ];
 
 export const imagesSingle: ImageProps[] = [
