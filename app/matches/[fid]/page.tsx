@@ -88,7 +88,7 @@ const CongratsText = () => {
             {congratsText[6]}
           </h2>
 
-          {congratsText.slice(7, 10).map((text, index) => (
+          {congratsText.slice(7, 11).map((text, index) => (
             <p key={index} className="leading-7 [&:not(:first-child)]:mt-4">
               {index + 1}. {text}
             </p>
