@@ -94,7 +94,7 @@ export const DelegateCard = async ({ delegate }: { delegate: RankedDelegate }) =
                     </Avatar>
                     <h2 className="font-semibold ">{delegate.matchPercentage}% Match</h2>
                 </span>
-                <Link href={`https://vote.optimism.io/delegates/${delegate.delegateID}`} passHref>
+                <Link href={`https://vote.optimism.io/delegates/${delegate.delegateID}`} target={`_blank`} passHref>
                     <div className="bg-white border border-gray-200 rounded-md px-4 py-2 hover:bg-slate-100 mt-5 sm:mt-0">
                         View Delegate
                     </div>
