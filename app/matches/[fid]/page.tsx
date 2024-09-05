@@ -8,6 +8,7 @@ import { ImageContainer, ImagesProps } from "@/components/ui/ImageContainer";
 import { DelegateCard } from "@/components/ui/delegateCard";
 import Image from "next/image";
 import Link from "next/link";
+import { revalidatePath } from "next/cache";
 
 import { Analytics } from "@vercel/analytics/react";
 
@@ -24,6 +25,7 @@ export default async function Page({ params }: { params: { fid: string } }) {
   const fid = params.fid;
   const attestations = await getAttestations(fid);
 
+  revalidatePath("/matches/" + fid);
   console.log(attestations, "from matches page for fid", fid);
 
   if (!attestations.length) {
