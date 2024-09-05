@@ -10,44 +10,39 @@ export default async function getAttestations(fid: string | number) {
   if (!fid) {
     throw new Error("FID must be provided");
   }
-  
+
   const recipient = await getFcAddress(fid);
 
-  if(!recipient) {
+  if (!recipient) {
     console.error("No recipient found");
   }
 
-  console.log({recipient});
-
   const { attestations } = await optimismGraphQLClient.request<{
     attestations: Array<AttestationData>;
-  }>(
-    GET_ATTESTATIONS,
-    {
-      "where": {
-        "schemaId": {
-          "equals": schemaUID
-        },
-        "attester": {
-          "equals": AttestorAddress
-        },
-        "recipient": {
-          "equals": recipient
-        }
-      }
-    }
-  );
+  }>(GET_ATTESTATIONS, {
+    where: {
+      schemaId: {
+        equals: schemaUID,
+      },
+      attester: {
+        equals: AttestorAddress,
+      },
+      recipient: {
+        equals: recipient,
+      },
+    },
+  });
 
-  if(!attestations) {
+  console.log({ attestations }, fid);
+
+  if (!attestations) {
     console.error("No attestations found");
   }
 
-  if(attestations.length > surveyQuestions.length) {
+  if (attestations.length > surveyQuestions.length) {
     console.error("Too many attestations found");
     return attestations.slice(-surveyQuestions.length);
   }
-
-
 
   return attestations;
 }
