@@ -102,16 +102,15 @@ const CongratsText = () => {
         </p>
         <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between p-0 w-full mt-6 gap-2">
           <Link href="https://warpcast.com/delegatematch" target="_blank">
-            <Image src="/warpcast.png" alt="warpcast" width={42} height={42} />
+            <div className="bg-[#ffffff] border-2 border-[#D0D0D0] rounded-md px-1 py-2 hover:bg-[#f8f8f8]">
+              <Image src="/warpcast-w.png" alt="warpcast" width={36} height={36}/>
+            </div>
           </Link>
 
-          <Link
-            href={`https://zora.co/collect/oeth:0xf918e83fa0d8615c621f498617920772ba790855/1`}
-            target={`_blank`}
-          >
-            <div className="bg-white border border-gray-200 rounded-md px-4 py-2 hover:bg-slate-100">
-              Mint Originals NFT on Zora
-            </div>
+          <Link href={`https://zora.co/collect/oeth:0xf918e83fa0d8615c621f498617920772ba790855/1`}  target={`_blank`}>
+              <div className="bg-[#FF0420] text-[#DFCCB0] border-2 border-[#DFCCB0] rounded-md px-4 py-2 hover:bg-[#81837A]">
+                  <h2 className="text-l font-semibold">Mint Originals NFT on Zora</h2>
+              </div>
           </Link>
         </div>
       </div>
