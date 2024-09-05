@@ -8,6 +8,7 @@ import { ImageContainer, ImagesProps } from "@/components/ui/ImageContainer";
 import { DelegateCard } from "@/components/ui/delegateCard";
 import Image from "next/image";
 import Link from "next/link";
+import { revalidatePath } from "next/cache";
 
 import { Analytics } from "@vercel/analytics/react";
 
@@ -24,6 +25,7 @@ export default async function Page({ params }: { params: { fid: string } }) {
   const fid = params.fid;
   const attestations = await getAttestations(fid);
 
+  revalidatePath("/matches/" + fid);
   console.log(attestations, "from matches page for fid", fid);
 
   if (!attestations.length) {
@@ -100,15 +102,18 @@ const CongratsText = () => {
         </p>
         <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between p-0 w-full mt-6 gap-2">
           <Link href="https://warpcast.com/delegatematch" target="_blank">
-            <Image src="/warpcast.png" alt="warpcast" width={42} height={42}/>
+            <Image src="/warpcast.png" alt="warpcast" width={42} height={42} />
           </Link>
 
-          <Link href={`https://zora.co/collect/oeth:0xf918e83fa0d8615c621f498617920772ba790855/1`}  target={`_blank`}>
-              <div className="bg-white border border-gray-200 rounded-md px-4 py-2 hover:bg-slate-100">
-                  Mint Originals NFT on Zora
-              </div>
+          <Link
+            href={`https://zora.co/collect/oeth:0xf918e83fa0d8615c621f498617920772ba790855/1`}
+            target={`_blank`}
+          >
+            <div className="bg-white border border-gray-200 rounded-md px-4 py-2 hover:bg-slate-100">
+              Mint Originals NFT on Zora
+            </div>
           </Link>
-      </div>
+        </div>
       </div>
       <ImageContainer src={imagesSingle[1].src} alt={imagesSingle[1].alt} />
     </div>
