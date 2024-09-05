@@ -15,7 +15,7 @@ export const ImageContainer: React.FC<ImageProps> = ({ src, alt }) => {
     <div
       className="relative bg-white border border-gray-200 rounded-md w-full h-full flex justify-center items-center min-h-48 p-16 md:p-24"
     >
-      <Image src={src} alt={alt} className="object-fit" />
+      <Image src={src} alt={alt} className="object-fit" width="200" height="200"/>
     </div>
   );
 };
