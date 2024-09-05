@@ -108,7 +108,7 @@ const CongratsText = () => {
           </Link>
 
           <Link href={`https://zora.co/collect/oeth:0xf918e83fa0d8615c621f498617920772ba790855/1`}  target={`_blank`}>
-              <div className="bg-[#FF0420] text-[#DFCCB0] border-2 border-[#DFCCB0] rounded-md px-4 py-2 hover:bg-[#81837A]">
+              <div className="bg-[#FF0420] text-[#fbebcf] border-2 border-[#DFCCB0] rounded-md px-4 py-2 hover:bg-[#81837A]">
                   <h2 className="text-l font-semibold">Mint Originals NFT on Zora</h2>
               </div>
           </Link>
