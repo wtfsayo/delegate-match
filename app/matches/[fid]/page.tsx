@@ -4,12 +4,12 @@ import TwoColumnLayout from "@/components/ui/twoColLayout";
 import getAttestations from "@/app/actions/attestations";
 import rankDelegates from "@/app/actions/matches";
 import { congratsText, imagesSingle } from "@/app/utils/consts";
-import { ImageContainer, ImagesProps } from "@/components/ui/ImageContainer";
+import { ImageContainer } from "@/components/ui/ImageContainer";
 import { DelegateCard } from "@/components/ui/delegateCard";
 import Image from "next/image";
 import Link from "next/link";
 
-export const revalidate = 60;
+export const revalidate = 1000;
 export const dynamicParams = true;
 
 import { Analytics } from "@vercel/analytics/react";
