@@ -69,21 +69,30 @@ const IntroText = () => {
         </p>
       ))}
 
-      <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between p-0 w-full mt-6 gap-2">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-0 w-full mt-6 gap-2">
+        {/* Left aligned images */}
+        <div className="flex gap-2">
           <Link href="https://warpcast.com/delegatematch" target="_blank">
-            <div className="bg-[#ffffff] border-2 border-[#D0D0D0] rounded-md px-1 py-2 hover:bg-[#f8f8f8]">
-              <Image src="/warpcast-w.png" alt="warpcast" width={36} height={36}/>
+            <div className="bg-[#ffffff] border-2 border-[#D0D0D0] rounded-md p-1 hover:bg-[#f8f8f8]">
+              <Image src="/warpcast-80.png" alt="warpcast" width={32} height={32}/>
             </div>
           </Link>
+          <Link href="https://x.com/delegate_match" target="_blank">
+            <div className="bg-[#ffffff] border-2 border-[#D0D0D0] rounded-md p-1 hover:bg-[#f8f8f8]">
+              <Image src="/twitter-80.png" alt="twitter" width={32} height={32}/>
+            </div>
+          </Link>
+        </div>
 
+        {/* Right aligned button */}
+        <div className="ml-auto">
           <Link href="https://warpcast.com/delegatematch/0xfca020d4" target="_blank">
             <div className="bg-[#FF0420] text-[#fbebcf] border-2 border-[#DFCCB0] rounded-md px-4 py-2 hover:bg-[#81837A]">
               <h2 className="text-l font-semibold">Get Started</h2>
             </div>
           </Link>
+        </div>
       </div>
-
-
 
     </div>
   );
