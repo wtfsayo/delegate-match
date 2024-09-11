@@ -8,7 +8,9 @@ import { ImageContainer, ImagesProps } from "@/components/ui/ImageContainer";
 import { DelegateCard } from "@/components/ui/delegateCard";
 import Image from "next/image";
 import Link from "next/link";
-import { revalidatePath } from "next/cache";
+
+export const revalidate = 60;
+export const dynamicParams = true;
 
 import { Analytics } from "@vercel/analytics/react";
 
@@ -25,7 +27,6 @@ export default async function Page({ params }: { params: { fid: string } }) {
   const fid = params.fid;
   const attestations = await getAttestations(fid);
 
-  revalidatePath("/matches/" + fid);
   console.log(attestations, "from matches page for fid", fid);
 
   if (!attestations.length) {
@@ -103,14 +104,24 @@ const CongratsText = () => {
         <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between p-0 w-full mt-6 gap-2">
           <Link href="https://warpcast.com/delegatematch" target="_blank">
             <div className="bg-[#ffffff] border-2 border-[#D0D0D0] rounded-md px-1 py-2 hover:bg-[#f8f8f8]">
-              <Image src="/warpcast-w.png" alt="warpcast" width={36} height={36}/>
+              <Image
+                src="/warpcast-w.png"
+                alt="warpcast"
+                width={36}
+                height={36}
+              />
             </div>
           </Link>
 
-          <Link href={`https://zora.co/collect/oeth:0xf918e83fa0d8615c621f498617920772ba790855/1`}  target={`_blank`}>
-              <div className="bg-[#FF0420] text-[#fbebcf] border-2 border-[#DFCCB0] rounded-md px-4 py-2 hover:bg-[#81837A]">
-                  <h2 className="text-l font-semibold">Mint Originals NFT on Zora</h2>
-              </div>
+          <Link
+            href={`https://zora.co/collect/oeth:0xf918e83fa0d8615c621f498617920772ba790855/1`}
+            target={`_blank`}
+          >
+            <div className="bg-[#FF0420] text-[#fbebcf] border-2 border-[#DFCCB0] rounded-md px-4 py-2 hover:bg-[#81837A]">
+              <h2 className="text-l font-semibold">
+                Mint Originals NFT on Zora
+              </h2>
+            </div>
           </Link>
         </div>
       </div>
