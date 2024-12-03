@@ -1,4 +1,3 @@
-import { getAddress } from "viem";
 import { airstackClient } from "@/app/utils/clients";
 import { GET_USER_BY_ID } from "@/app/utils/queries";
 import { AirstackUserQueryInterface } from "@/app/utils/interfaces";

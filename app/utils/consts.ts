@@ -1,9 +1,9 @@
-import { optimismSepolia, optimism } from "viem/chains";
+import { optimism } from "viem/chains";
 
 import type { Address, Hex } from "viem";
 import { Wallet, JsonRpcProvider } from "ethers";
 import { ImageProps } from "@/components/ui/ImageContainer";
-import Link from 'next/link'
+
 
 const relayerPvtKey = process.env.RELAYER_PRIVATE_KEY! as Hex;
 

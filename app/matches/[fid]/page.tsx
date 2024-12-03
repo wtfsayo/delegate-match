@@ -53,7 +53,7 @@ const DelegateMatches: React.FC<{ fid: string }> = async ({ fid }) => {
   return (
     <div className="flex flex-col items-center justify-center space-y-4 w-full">
       {delegateMatches.map((delegate) => (
-        <DelegateCard delegate={delegate} />
+        <DelegateCard delegate={delegate} key={delegate?.delegateID?.toString()} />
       ))}
     </div>
   );

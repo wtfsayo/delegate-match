@@ -75,7 +75,7 @@ export const DelegateCard = async ({ delegate }: { delegate: RankedDelegate }) =
                                         <p>{issue.value}</p>
                                     </TooltipContent>
                                 </Tooltip>
-                                : <Badge variant="outline">
+                                : <Badge variant="outline" key={index}>
                                     {_.startCase(issue.type)}
                                 </Badge>
                         ))}

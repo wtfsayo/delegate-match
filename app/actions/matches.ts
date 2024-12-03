@@ -34,7 +34,7 @@ import { DecodedAttestation } from "@/app/utils/interfaces";
     const totalQuestions = Object.keys(surveyQuestions).length;
   
     // Calculate the score and percentage for each delegate
-    const scores = delegateAnswers.map((delegate: DelegateAnswers, index: number) => {
+    const scores = delegateAnswers.map((delegate: DelegateAnswers) => {
       
       let score = 0;
       _.map(decodedAttestations, (attestation: DecodedAttestation, questionIndex: number) => {

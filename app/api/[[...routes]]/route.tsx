@@ -72,7 +72,7 @@ const getFrameImage = (
   );
 };
 
-const getFrameImageByUrl = (title: string, url: string, count?: number) => {
+const getFrameImageByUrl = (title: string, url: string) => {
   return (
     <Box grow alignVertical="center" alignHorizontal="center">
       <Image src={url} objectFit="cover" width="100%" height="100%" />
@@ -89,9 +89,9 @@ const getFrameImageByUrl = (title: string, url: string, count?: number) => {
 
 app.image("/matchImage/:fid", async (c) => {
   const fid = c.req?.param()?.fid ?? "0";
-  const {profileDisplayName, profileName} = await getFcName(fid);
+  const { profileDisplayName, profileName } = await getFcName(fid);
 
-  console.log({fid, profileDisplayName, profileName}, "from matchImage frame for fid", fid); 
+  console.log({ fid, profileDisplayName, profileName }, "from matchImage frame for fid", fid);
   const matches = await rankDelegates(fid);
 
   const shownMatches = matches.slice(0, 3);
@@ -126,7 +126,7 @@ app.image("/matchImage/:fid", async (c) => {
         >
           <HStack gap="32">
             {shownMatches.map((match) => (
-              <Box gap="8" alignVertical="center" alignHorizontal="center">
+              <Box gap="8" alignVertical="center" alignHorizontal="center" key={match?.delegateID?.toString()}>
                 <Image
                   src={`https://api.ensdata.net/media/avatar/${match.delegateID}`}
                   borderRadius="256"
@@ -160,8 +160,8 @@ app.frame("/", (c) => {
   return c.res({
     image: getFrameImageByUrl(" ", "/bg0.png"),
     intents: [
-      <Button action="/education/0">Education</Button>,
-      <Button action="/start">Find Matches</Button>,
+      <Button action="/education/0" key="education">Education</Button>,
+      <Button action="/start" key="start">Find Matches</Button>,
     ],
   });
 });
@@ -178,7 +178,7 @@ app.frame("/start", async (c) => {
       image: getFrameImage(
         "You have already answered the survey. Click 'Show Matches' to see your matches."
       ),
-      intents: [<Button>Show Matches</Button>],
+      intents: [<Button key="show-matches">Show Matches</Button>],
     });
   }
 
@@ -188,18 +188,17 @@ app.frame("/start", async (c) => {
       "Answer 11 questions about your key priorities and values, and we will match you with an OP delegate.",
       "/bg-intro.png"
     ),
-    intents: [<Button>Start</Button>],
+    intents: [<Button key="start">Start</Button>],
   });
 });
 
 surveyQuestions.forEach((question, qid) => {
   app.frame(`/quest/${qid}`, (c) => {
-    let state;
 
     const { buttonValue, deriveState } = c;
 
     if (buttonValue) {
-      state = deriveState((previousState) => {
+      deriveState((previousState) => {
         previousState.currentIndex = qid;
         previousState.responses[qid - 1] = Number(buttonValue);
       });
@@ -218,7 +217,7 @@ surveyQuestions.forEach((question, qid) => {
         String(qid + 1) + "/" + String(surveyQuestions.length)
       ),
       intents: question.choices.map((choice: string, index: number) => (
-        <Button value={String(index)}>{choice}</Button>
+        <Button value={String(index)} key={index}>{choice}</Button>
       )),
     });
   });
@@ -236,7 +235,7 @@ educationQuest.forEach((text, index) => {
         true
       ),
       intents: [
-        <Button action={index > 0 ? "/education/" + (index - 1) : "/"}>
+        <Button action={index > 0 ? "/education/" + (index - 1) : "/"} key="action1">
           Back
         </Button>,
         <Button
@@ -245,6 +244,7 @@ educationQuest.forEach((text, index) => {
               ? "/education/" + (index + 1)
               : "/start"
           }
+          key="action2"
         >
           {index + 1 < educationQuest.length ? "Next" : "Start"}
         </Button>,
@@ -257,16 +257,13 @@ app.frame("/attest", async (c) => {
   const { buttonValue, deriveState, frameData } = c;
   const fid = frameData?.fid;
 
-  let state: State;
-  let statements;
-
-  state = deriveState((previousState) => {
+  const state: State = deriveState((previousState) => {
     previousState.currentIndex = Object.keys(previousState.responses).length;
     previousState.responses[Object.keys(previousState.responses).length] =
       Number(buttonValue);
   });
 
-  statements = Object.entries(state.responses).map(([question, answer]) => {
+  const statements = Object.entries(state.responses).map(([question, answer]) => {
     const q = Number(question);
     return {
       promptStatement: surveyQuestions[q].prompt,
@@ -285,8 +282,8 @@ app.frame("/attest", async (c) => {
     return c.res({
       image: "/matchImage/" + fid,
       intents: [
-        <Button action="/existing">Refresh</Button>,
-        <Button.Redirect location={`https://delegatematch.xyz/matches/${fid!}`}>
+        <Button action="/existing" key="refresh">Refresh</Button>,
+        <Button.Redirect location={`https://delegatematch.xyz/matches/${fid!}`} key={`match-${fid}`}>
           See All
         </Button.Redirect>,
       ],
@@ -296,7 +293,7 @@ app.frame("/attest", async (c) => {
   return c.res({
     image: "/load3.gif",
     action: "/existing",
-    intents: [<Button>Refresh</Button>],
+    intents: [<Button key="refresh">Refresh</Button>],
   });
 });
 
@@ -307,7 +304,7 @@ app.frame("/existing", async (c) => {
   return c.res({
     image: "/matchImage/" + fid,
     intents: [
-      <Button.Redirect location={`https://delegatematch.xyz/matches/${fid!}`}>
+      <Button.Redirect location={`https://delegatematch.xyz/matches/${fid!}`} key="see-all">
         See All
       </Button.Redirect>,
     ],

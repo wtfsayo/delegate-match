@@ -1,18 +1,8 @@
 import "@/styles/global.css";
-import { Inter, Sora } from "next/font/google";
 import { Metadata } from "next";
 import { cn } from "@/lib/utils";
 import { Analytics } from "@vercel/analytics/react";
 
-const fontInter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const fontSora = Sora({
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Delegate Match",
