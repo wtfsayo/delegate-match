@@ -66,9 +66,9 @@ const IntroText = () => {
 };
 
 export default function Home() {
-  return;
-  <>
+  return
+  (<>
     <Analytics />
     <TwoColumnLayout col1={<LogoColumn />} col2={<IntroText />} />
-  </>;
+  </>);
 }
